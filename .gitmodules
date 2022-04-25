@@ -1,3 +1,6 @@
 [submodule "SEP4/drivers"]
 	path = SEP4/drivers
 	url = https://github.com/ihavn/IoT_Semester_project.git
+[submodule "SEP4/FreeRTOS"]
+	path = SEP4/FreeRTOS
+	url = https://github.com/ihavn/VIA_FreeRTOS_AVRMEGA
