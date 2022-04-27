@@ -1336,19 +1336,20 @@ END GROUP
  .rodata.str1.1
                 0x0080024a       0x1e main.o
  .rodata.str1.1
-                0x00800268      0x14a LoRaWANHandler.o
+                0x00800268      0x149 LoRaWANHandler.o
  .rodata.str1.1
-                0x008003b2      0x295 ../drivers\libIotLibrary.a(lora_driver.o)
+                0x008003b1      0x295 ../drivers\libIotLibrary.a(lora_driver.o)
                                 0x2a5 (size before relaxing)
  .rodata._joinMode
-                0x00800647        0x4 ../drivers\libIotLibrary.a(lora_driver.o)
+                0x00800646        0x4 ../drivers\libIotLibrary.a(lora_driver.o)
  .rodata._returnCode
-                0x0080064b       0x33 ../drivers\libIotLibrary.a(lora_driver.o)
-                0x0080064b                _returnCode
+                0x0080064a       0x33 ../drivers\libIotLibrary.a(lora_driver.o)
+                0x0080064a                _returnCode
  .rodata.str1.1
-                0x0080067e        0x8 ../drivers\libIotLibrary.a(status_leds.o)
+                0x0080067d        0x8 ../drivers\libIotLibrary.a(status_leds.o)
  *(.gnu.linkonce.r*)
                 0x00800686                . = ALIGN (0x2)
+ *fill*         0x00800685        0x1 
                 0x00800686                _edata = .
                 0x00800686                PROVIDE (__data_end, .)
 

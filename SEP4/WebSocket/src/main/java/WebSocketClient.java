@@ -15,12 +15,12 @@ public class WebSocketClient implements WebSocket.Listener {
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
     public void sendDownLink(String jsonTelegram) {
         server.sendText(jsonTelegram,true);
-        json = new Gson();
     }
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
     // Substitute ????????????????? with the token you have been given
     public WebSocketClient(String url) {
+        json = new Gson();
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
                 .buildAsync(URI.create(url), this);
