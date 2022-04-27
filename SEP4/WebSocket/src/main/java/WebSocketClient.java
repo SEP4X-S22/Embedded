@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -8,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public class WebsocketClient implements WebSocket.Listener {
+public class WebSocketClient implements WebSocket.Listener {
     private WebSocket server = null;
     private Gson json;
 
@@ -21,7 +20,7 @@ public class WebsocketClient implements WebSocket.Listener {
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
     // Substitute ????????????????? with the token you have been given
-    public WebsocketClient(String url) {
+    public WebSocketClient(String url) {
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
                 .buildAsync(URI.create(url), this);
