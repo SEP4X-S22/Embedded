@@ -1,18 +1,22 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class WebsocketClient implements WebSocket.Listener {
     private WebSocket server = null;
+    private Gson json;
 
     // Send down-link message to device
     // Must be in Json format according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
     public void sendDownLink(String jsonTelegram) {
         server.sendText(jsonTelegram,true);
+        json = new Gson();
     }
 
     // E.g. url: "wss://iotnet.teracom.dk/app?token=??????????????????????????????????????????????="
@@ -60,7 +64,7 @@ public class WebsocketClient implements WebSocket.Listener {
     };
     //onText()
     public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-        String indented = (new JSONObject(data.toString())).toString(4);
+        String indented = json.toJson(data.toString());
         System.out.println(indented);
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
