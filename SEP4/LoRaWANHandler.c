@@ -117,12 +117,11 @@ void lora_handler_task( void *pvParameters )
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 
 	_lora_setup();
-
 	_uplink_payload.len = 6;
-	_uplink_payload.portNo = 2;
+	_uplink_payload.portNo = 1;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(10UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
 	for(;;)
