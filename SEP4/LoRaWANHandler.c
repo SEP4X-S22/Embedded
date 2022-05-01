@@ -13,8 +13,8 @@
 #include <status_leds.h>
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+#define LORA_appEUI "9226119BAA2DE982"
+#define LORA_appKEY "65DE3D06F8D11CAA807EE317C60E144D"
 
 void lora_handler_task( void *pvParameters );
 
@@ -117,9 +117,8 @@ void lora_handler_task( void *pvParameters )
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 
 	_lora_setup();
-
-	_uplink_payload.len = 6;
-	_uplink_payload.portNo = 2;
+	_uplink_payload.len = 5;
+	_uplink_payload.portNo = 1;
 
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
@@ -130,16 +129,16 @@ void lora_handler_task( void *pvParameters )
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
 		// Some dummy payload
-		uint16_t hum = 12345; // Dummy humidity
+
+		uint8_t hum = 72; // Dummy humidity
 		int16_t temp = 675; // Dummy temp
 		uint16_t co2_ppm = 1050; // Dummy CO2
 
-		_uplink_payload.bytes[0] = hum >> 8;
-		_uplink_payload.bytes[1] = hum & 0xFF;
-		_uplink_payload.bytes[2] = temp >> 8;
-		_uplink_payload.bytes[3] = temp & 0xFF;
-		_uplink_payload.bytes[4] = co2_ppm >> 8;
-		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
+		_uplink_payload.bytes[0] = hum;
+		_uplink_payload.bytes[1] = temp >> 8;
+		_uplink_payload.bytes[2] = temp & 0xFF;
+		_uplink_payload.bytes[3] = co2_ppm >> 8;
+		_uplink_payload.bytes[4] = co2_ppm & 0xFF;
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
