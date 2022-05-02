@@ -1,6 +1,4 @@
-**/SEP4/.vs/**
-*.o
-**.elf
+**/.vs/
 **/Debug/
 
 .vscode/*
