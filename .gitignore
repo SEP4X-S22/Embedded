@@ -1,5 +1,5 @@
 .vs/**
-Embedded/SEP4/Debug/*
+**/SEP4/Debug/
 
 .vscode/*
 !.vscode/settings.json
