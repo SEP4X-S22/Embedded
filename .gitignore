@@ -1,6 +1,7 @@
 **/SEP4/.vs/**
 *.o
 **.elf
+**/Debug/
 
 .vscode/*
 !.vscode/settings.json
