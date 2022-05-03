@@ -20,6 +20,10 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
+//Temp and humidity
+#include<hih8120.h>
+bool  temp;
+
 // define two Tasks
 void task1( void *pvParameters );
 void task2( void *pvParameters );
@@ -72,10 +76,26 @@ void task1( void *pvParameters )
 	xLastWakeTime = xTaskGetTickCount();
 
 	for(;;)
-	{
+	{	
+			if ( 1 == temp )
+			{
+						if ( HIH8120_OK == hih8120_wakeup() )
+					{
+						vTaskDelay(50);
+						if ( HIH8120_OK ==  hih8120_measure() )
+						{
+							vTaskDelay(1);	
+							float temperature = 0.0;
+							temperature = hih8120_getTemperature();
+							printf("%f",temperature);
+						}
+					}
+			}
+					
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("Task1"); // stdio functions are not reentrant - Should normally be protected by MUTEX
-		PORTA ^= _BV(PA0);
+	//	PORTA ^= _BV(PA0);
+		
 	}
 }
 
@@ -114,6 +134,10 @@ void initialiseSystem()
 	lora_driver_initialise(1, NULL);
 	// Create LoRaWAN task and start it up with priority 3
 	lora_handler_initialise(3);
+	if ( HIH8120_OK == hih8120_initialise() )
+	{
+       temp = true;
+	}
 }
 
 /*-----------------------------------------------------------*/
