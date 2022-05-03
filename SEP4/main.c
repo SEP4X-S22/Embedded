@@ -86,8 +86,12 @@ void task1( void *pvParameters )
 						{
 							vTaskDelay(1);	
 							float temperature = 0.0;
+							float humidity = 0.0;
 							temperature = hih8120_getTemperature();
+							humidity = hih8120_getHumidity();
 							printf("%f",temperature);
+							printf("%f",humidity);
+							//xQueueSendToBack();
 						}
 					}
 			}
@@ -111,7 +115,7 @@ void task2( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("Task2"); // stdio functions are not reentrant - Should normally be protected by MUTEX
+		puts("Task2"); // stdio functions are not reentrant - Should normally be protected by MUTEX
 		PORTA ^= _BV(PA7);
 	}
 }
