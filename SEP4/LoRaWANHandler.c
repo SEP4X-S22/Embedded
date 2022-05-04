@@ -11,10 +11,13 @@
 
 #include <lora_driver.h>
 #include <status_leds.h>
+#include <queue.h>
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "9226119BAA2DE982"
 #define LORA_appKEY "65DE3D06F8D11CAA807EE317C60E144D"
+
+extern QueueHandle_t xQueue;
 
 void lora_handler_task( void *pvParameters );
 
@@ -129,9 +132,14 @@ void lora_handler_task( void *pvParameters )
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
 		// Some dummy payload
-
-		uint8_t hum = 72; // Dummy humidity
-		int16_t temp = 675; // Dummy temp
+		float p;
+		int16_t temp = 0;
+		uint8_t hum = 0;
+		if(xQueue != 0) if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
+		if(xQueue != 0) if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
+		puts("Sending to LoRaWAN");
+		//uint8_t hum = 72; // Dummy humidity
+		 // Dummy temp
 		uint16_t co2_ppm = 1050; // Dummy CO2
 
 		_uplink_payload.bytes[0] = hum;

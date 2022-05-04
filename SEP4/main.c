@@ -30,6 +30,7 @@ void task2( void *pvParameters );
 
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
+QueueHandle_t xQueue;
 
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
@@ -40,14 +41,14 @@ void create_tasks_and_semaphores(void)
 	// Semaphores are useful to stop a Task proceeding, where it should be paused to wait,
 	// because it is sharing a resource, such as the Serial port.
 	// Semaphores should only be used whilst the scheduler is running, but we can set it up here.
-	if ( xTestSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
+	/*if ( xTestSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
 	{
 		xTestSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore.
 		if ( ( xTestSemaphore ) != NULL )
 		{
 			xSemaphoreGive( ( xTestSemaphore ) );  // Make the mutex available for use, by initially "Giving" the Semaphore.
 		}
-	}
+	}*/
 
 	xTaskCreate(
 	task1
@@ -57,48 +58,49 @@ void create_tasks_and_semaphores(void)
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 
-	xTaskCreate(
+	/*xTaskCreate(
 	task2
 	,  "Task2"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
+	,  NULL );*/
 }
 
 /*-----------------------------------------------------------*/
 void task1( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 500/portTICK_PERIOD_MS; // 500 ms
+	const TickType_t xFrequency = pdMS_TO_TICKS(360000UL); // 500 ms
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
 
 	for(;;)
-	{	
-			if ( 1 == temp )
+	{
+		if ( 1 == temp )
+		{
+			if ( HIH8120_OK == hih8120_wakeup() )
 			{
-						if ( HIH8120_OK == hih8120_wakeup() )
-					{
-						vTaskDelay(50);
-						if ( HIH8120_OK ==  hih8120_measure() )
-						{
-							vTaskDelay(1);	
-							float temperature = 0.0;
-							float humidity = 0.0;
-							temperature = hih8120_getTemperature();
-							humidity = hih8120_getHumidity();
-							printf("%f",temperature);
-							printf("%f",humidity);
-							//xQueueSendToBack();
-						}
-					}
+				vTaskDelay(50);
+				if ( HIH8120_OK ==  hih8120_measure() )
+				{
+					vTaskDelay(1);
+					float temperature = 0.0;
+					float humidity = 0.0;
+					temperature = hih8120_getTemperature();
+					if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) puts("Sent temp");
+					humidity = hih8120_getHumidity();
+					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) puts("Sent humidity");
+					printf("%f",temperature);
+					printf("%f",humidity);
+				}
 			}
-					
+		}
+		
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("Task1"); // stdio functions are not reentrant - Should normally be protected by MUTEX
-	//	PORTA ^= _BV(PA0);
+		//	PORTA ^= _BV(PA0);
 		
 	}
 }
@@ -140,7 +142,7 @@ void initialiseSystem()
 	lora_handler_initialise(3);
 	if ( HIH8120_OK == hih8120_initialise() )
 	{
-       temp = true;
+		temp = true;
 	}
 }
 
@@ -149,8 +151,9 @@ int main(void)
 {
 	initialiseSystem(); // Must be done as the very first thing!!
 	printf("Program Started!!\n");
+	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
-
+	
 	/* Replace with your application code */
 	while (1)
 	{
