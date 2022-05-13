@@ -89,11 +89,13 @@ void task1( void *pvParameters )
 					float temperature = 0.0;
 					float humidity = 0.0;
 					temperature = hih8120_getTemperature();
-					if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) puts("Sent temp");
+					if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) {
+						printf("%f",temperature);
+					}
 					humidity = hih8120_getHumidity();
-					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) puts("Sent humidity");
-					printf("%f",temperature);
-					printf("%f",humidity);
+					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) {
+						printf("%f",humidity);	
+					}
 				}
 			}
 		}
