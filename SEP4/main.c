@@ -32,6 +32,10 @@ void task2( void *pvParameters );
 SemaphoreHandle_t xTestSemaphore;
 QueueHandle_t xQueue;
 
+// Initialize WakeTime and Frequency variables
+TickType_t xLastWakeTime;
+const TickType_t xFrequency = pdMS_TO_TICKS(360000UL); // 500 ms
+
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
@@ -70,8 +74,6 @@ void create_tasks_and_semaphores(void)
 /*-----------------------------------------------------------*/
 void task1( void *pvParameters )
 {
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(360000UL); // 500 ms
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -80,24 +82,45 @@ void task1( void *pvParameters )
 	{
 		if ( 1 == temp )
 		{
-			if ( HIH8120_OK == hih8120_wakeup() )
+			if(xSemaphoreTake(sharedMutex, pdMS_TO_TICKS(200))==pdPASS)) // We try to obtain the mutex in order to put temp and hum in the queue
 			{
-				vTaskDelay(50);
-				if ( HIH8120_OK ==  hih8120_measure() )
+				if ( HIH8120_OK == hih8120_wakeup() )
 				{
-					vTaskDelay(1);
-					float temperature = 0.0;
-					float humidity = 0.0;
-					temperature = hih8120_getTemperature();
-					if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) puts("Sent temp");
-					humidity = hih8120_getHumidity();
-					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) puts("Sent humidity");
-					printf("%f",temperature);
-					printf("%f",humidity);
+					vTaskDelay(50);
+					if ( HIH8120_OK ==  hih8120_measure() )
+					{
+					
+							vTaskDelay(1);
+							float temperature = 0.0;
+							float humidity = 0.0;
+							temperature = hih8120_getTemperature();
+							if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) {
+								printf("%f\n",temperature);
+							}
+							humidity = hih8120_getHumidity();
+							if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) {
+								printf("%f\n",humidity);
+							}
+							xSemaphoreGive( sharedMutex);
+					}
 				}
 			}
+			else {
+				// We timed out and could not obtain the mutex and therefore can not access the queue safely.
+			}
 		}
-		
+	  /*if(  ) Condition for co2 sensor
+		{
+			if(xSemaphoreTake(sharedMutex, pdMS_TO_TICKS(200))==pdPASS)) // We try to obtain the mutex in order to put temp and hum in the queue
+			{
+				// Logic for co2 queue handling
+			}
+			else {
+			// We timed out and could not obtain the mutex and therefore can not access the queue safely.
+			}
+		}
+	  */
+
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		//puts("Task1"); // stdio functions are not reentrant - Should normally be protected by MUTEX
 		//	PORTA ^= _BV(PA0);
