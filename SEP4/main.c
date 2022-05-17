@@ -25,7 +25,7 @@
 bool  temp;
 
 // define two Tasks
-void task1( void *pvParameters );
+void TemperatureAndHumidityTask( void *pvParameters );
 void task2( void *pvParameters );
 
 // define semaphore handle
@@ -51,8 +51,8 @@ void create_tasks_and_semaphores(void)
 	}*/
 
 	xTaskCreate(
-	task1
-	,  "Task1"  // A name just for humans
+	TemperatureAndHumidityTask
+	,  "TemperatureAndHumidityTask"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
@@ -68,12 +68,12 @@ void create_tasks_and_semaphores(void)
 }
 
 /*-----------------------------------------------------------*/
-void task1( void *pvParameters )
+void TemperatureAndHumidityTask( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(360000UL); // 500 ms
+	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 5 minutes
 
-	// Initialise the xLastWakeTime variable with the current time.
+	// Initialize the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
 
 	for(;;)
@@ -101,7 +101,7 @@ void task1( void *pvParameters )
 		}
 		
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//puts("Task1"); // stdio functions are not reentrant - Should normally be protected by MUTEX
+		//puts("TemperatureAndHumidityTask"); // stdio functions are not reentrant - Should normally be protected by MUTEX
 		//	PORTA ^= _BV(PA0);
 		
 	}
