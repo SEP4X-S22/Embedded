@@ -79,7 +79,7 @@ void task1( void *pvParameters )
 	{
 		if ( 1 == temp )
 		{
-			if(xSemaphoreTake(sharedMutex, pdMS_TO_TICKS(200))==pdPASS)) // We try to obtain the mutex in order to put temp and hum in the queue
+			if(xSemaphoreTake(sharedMutex, pdMS_TO_TICKS(200) ) == pdPASS ) // We try to obtain the mutex in order to put temp and hum in the queue
 			{
 				if ( HIH8120_OK == hih8120_wakeup() )
 				{
@@ -108,7 +108,7 @@ void task1( void *pvParameters )
 		}
 	  /*if(  ) Condition for co2 sensor
 		{
-			if(xSemaphoreTake(sharedMutex, pdMS_TO_TICKS(200))==pdPASS)) // We try to obtain the mutex in order to put temp and hum in the queue
+			if(xSemaphoreTake(sharedMutex, pdMS_TO_TICKS(200) )==pdPASS ) // We try to obtain the mutex in order to put temp and hum in the queue
 			{
 				// Logic for co2 queue handling
 			}
@@ -170,7 +170,7 @@ void initialiseSystem()
 int main(void)
 {
 	initialiseSystem(); // Must be done as the very first thing!!
-	printf("Program Started!!\n");
+	puts("Program Started!!");
 	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
 	

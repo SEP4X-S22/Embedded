@@ -135,8 +135,8 @@ void lora_handler_task( void *pvParameters )
 		float p;
 		int16_t temp = 0;
 		uint8_t hum = 0;
-		if(xQueue != 0) if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
-		if(xQueue != 0) if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
+		if(xQueue != 0) {  if(xQueueReceive(xQueue, &p, 0) == pdPASS) { puts("Only the first time of program launch"); temp = (p*10); printf("%d\n", temp); } }
+		if(xQueue != 0) {  if(xQueueReceive(xQueue, &p, 0) == pdPASS ) { puts("Only the first time of program launch #2"); hum = p; printf("%d\n", hum); } }
 		puts("Sending to LoRaWAN");
 		//uint8_t hum = 72; // Dummy humidity
 		 // Dummy temp
