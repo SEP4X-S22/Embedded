@@ -20,6 +20,7 @@
 // Needed for LoRaWAN
 #include <lora_driver.h>
 #include <status_leds.h>
+#include <event_groups.h>
 
 //Temp and humidity
 #include<hih8120.h>
@@ -27,6 +28,8 @@ bool  temp;
 
 // define semaphore handle
 QueueHandle_t xQueue;
+EventGroup_t readingsEventGroup;
+
 
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
@@ -60,6 +63,7 @@ int main(void)
 	initialiseSystem(); // Must be done as the very first thing!!
 	printf("Program Started!!\n");
 	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
+	readingsEventGroup = xEventGroupCreate();
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
 	
 	/* Replace with your application code */
