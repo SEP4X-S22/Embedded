@@ -12,12 +12,17 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 #include <queue.h>
+#include "event_groups.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "9226119BAA2DE982"
 #define LORA_appKEY "65DE3D06F8D11CAA807EE317C60E144D"
 
 extern QueueHandle_t xQueue;
+extern EventGroupHandle_t readingsEventGroup;
+
+#define BIT_TEMPERATURE (1 << 0)
+#define BIT_HUMIDITY (1 << 1)
 
 void lora_handler_task( void *pvParameters );
 
@@ -130,16 +135,25 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 
-		// Some dummy payload
+		EventBits_t readingsStatus;
+
+		// Creating the payload
+		
+		//Readings declaration
 		float p;
 		int16_t temp = 0;
 		uint8_t hum = 0;
-		if(xQueue != 0) if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
-		if(xQueue != 0) if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
-		puts("Sending to LoRaWAN");
-		//uint8_t hum = 72; // Dummy humidity
-		 // Dummy temp
+		
+		//Waiting for all the bits to be set to 1
+		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
+		
+		
+		if(readingsStatus & (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
+			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
+			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
+		}
 		uint16_t co2_ppm = 1050; // Dummy CO2
+		puts("Sending to LoRaWAN");
 
 		_uplink_payload.bytes[0] = hum;
 		_uplink_payload.bytes[1] = temp >> 8;
@@ -147,7 +161,6 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[3] = co2_ppm >> 8;
 		_uplink_payload.bytes[4] = co2_ppm & 0xFF;
 
-		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 		
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
