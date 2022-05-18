@@ -28,7 +28,7 @@ bool  temp;
 
 // define semaphore handle
 QueueHandle_t xQueue;
-EventGroup_t readingsEventGroup;
+EventGroupHandle_t readingsEventGroup = NULL;
 
 
 // Prototype for LoRaWAN handler

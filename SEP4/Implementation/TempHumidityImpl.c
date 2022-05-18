@@ -5,10 +5,11 @@
 //Temp and humidity
 #include<hih8120.h>
 #include <stdio.h>
+#include <event_groups.h>
 
 extern bool  temp;
 extern QueueHandle_t xQueue;
-extern EventGroup_t readingsEventGroup;
+extern EventGroupHandle_t readingsEventGroup;
 
 #define BIT_TEMPERATURE (1 << 0)
 #define BIT_HUMIDITY (1 << 1)
@@ -31,7 +32,7 @@ void create_task_temperature_humidity(void)
 
 void task_read_temp_humidity(void *pvParameters){
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 500 ms
+	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 5 minutes
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -48,17 +49,15 @@ void task_read_temp_humidity(void *pvParameters){
 					vTaskDelay(1);
 					temperature = hih8120_getTemperature();
 					if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) {
-						puts("Sent temp");
+						printf("%f\n",temperature);
 						xEventGroupSetBits(readingsEventGroup, BIT_TEMPERATURE);
 						}
 					humidity = hih8120_getHumidity();
 					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) {
-						puts("Sent humidity");
+							printf("%f\n",humidity);
 						xEventGroupSetBits(readingsEventGroup, BIT_HUMIDITY);
 						
 					}
-					printf("%f",temperature);
-					printf("%f",humidity);
 				}
 			}
 		}
