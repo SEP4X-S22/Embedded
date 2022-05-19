@@ -22,9 +22,12 @@
 #include <status_leds.h>
 #include <event_groups.h>
 
-//Temp and humidity
-#include<hih8120.h>
-bool  temp;
+// Temp and humidity
+#include <hih8120.h>
+bool temp;
+
+// C02 includes
+#include <mh_z19.h>
 
 // define semaphore handle
 QueueHandle_t xQueue;
@@ -42,8 +45,15 @@ void initialiseSystem()
 
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_initialise(ser_USART0);
+	
+	// To initialize the CO2 sensor
+	mh_z19_initialise(ser_USART3);
+	
 	// Let's create some tasks
 	create_task_temperature_humidity();
+	create_task_c02();
+	mh_z19_injectCallBack(task_co2_callback);
+	
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
@@ -64,7 +74,9 @@ int main(void)
 	printf("Program Started!!\n");
 	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
 	readingsEventGroup = xEventGroupCreate();
-	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
+	
+	// Initialize and run the freeRTOS scheduler. Execution should never return from here.
+	vTaskStartScheduler();
 	
 	/* Replace with your application code */
 	while (1)

@@ -148,7 +148,7 @@ void lora_handler_task( void *pvParameters )
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		
-		if(readingsStatus & (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
+		if(readingsStatus && (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
 		}
