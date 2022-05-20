@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <message_buffer.h>
-
 #include <serial.h>
 
 void create_task_temperature_humidity(void);

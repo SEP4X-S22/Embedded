@@ -6,7 +6,8 @@
 
 #include <serial.h>
 
-void create_task_c02(void);
+void task_co2_callback(uint16_t ppm);
 void task_read_c02(void *pvParameters);
+void create_task_c02(void);
 
 #endif /* C02_H_ */

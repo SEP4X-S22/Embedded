@@ -2,7 +2,8 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 #include <semphr.h>
-//Temp and humidity
+
+// Temp and humidity
 #include<hih8120.h>
 #include <stdio.h>
 #include <event_groups.h>
@@ -34,7 +35,7 @@ void task_read_temp_humidity(void *pvParameters){
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 5 minutes
 
-	// Initialise the xLastWakeTime variable with the current time.
+	// Initialize the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
 
 	for(;;)

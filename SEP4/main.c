@@ -28,6 +28,7 @@ bool temp;
 
 // C02 includes
 #include <mh_z19.h>
+#include <CO2.h>
 
 // define semaphore handle
 QueueHandle_t xQueue;

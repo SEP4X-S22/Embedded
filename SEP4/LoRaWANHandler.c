@@ -23,6 +23,7 @@ extern EventGroupHandle_t readingsEventGroup;
 
 #define BIT_TEMPERATURE (1 << 0)
 #define BIT_HUMIDITY (1 << 1)
+#define BIT_CO2 (1 << 2)
 
 void lora_handler_task( void *pvParameters );
 
@@ -143,16 +144,18 @@ void lora_handler_task( void *pvParameters )
 		float p;
 		int16_t temp = 0;
 		uint8_t hum = 0;
+		uint16_t co2_ppm = 0;
 		
 		//Waiting for all the bits to be set to 1
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		
-		if(readingsStatus && (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
+		if(readingsStatus && (BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2) == (BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2)) {
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
+			if(xQueueReceive(xQueue, &p, 0) == pdPASS) co2_ppm = p;
 		}
-		uint16_t co2_ppm = 1050; // Dummy CO2
+		
 		puts("Sending to LoRaWAN");
 
 		_uplink_payload.bytes[0] = hum;
