@@ -3,7 +3,7 @@
 #include <task.h>
 #include <semphr.h>
 //Temp and humidity
-#include<hih8120.h>
+#include <hih8120.h>
 #include <stdio.h>
 #include <event_groups.h>
 

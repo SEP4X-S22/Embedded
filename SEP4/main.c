@@ -29,6 +29,7 @@ bool  temp;
 // define semaphore handle
 QueueHandle_t xQueue;
 EventGroupHandle_t readingsEventGroup = NULL;
+SemaphoreHandle_t c02Semaphore;
 
 
 // Prototype for LoRaWAN handler
@@ -44,6 +45,7 @@ void initialiseSystem()
 	stdio_initialise(ser_USART0);
 	// Let's create some tasks
 	create_task_temperature_humidity();
+	 create_task_open_window();
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
@@ -64,6 +66,11 @@ int main(void)
 	printf("Program Started!!\n");
 	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
 	readingsEventGroup = xEventGroupCreate();
+	c02Semaphore = xSemaphoreCreateMutex();
+	if(c02Semaphore != NULL)
+	{
+		//xSemaphoreGive(c02Semaphore);
+	}
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
 	
 	/* Replace with your application code */
