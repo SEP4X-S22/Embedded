@@ -13,3 +13,7 @@
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Unnecessary Atmel computer specific configuration files
+SEP4/.vs/*
+SEP4/SEP4.componentinfo.xml
