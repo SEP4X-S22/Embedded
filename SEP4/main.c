@@ -29,6 +29,7 @@ bool  temp;
 // define semaphore handle
 QueueHandle_t xQueue;
 EventGroupHandle_t readingsEventGroup = NULL;
+MessageBufferHandle_t downLinkMessageBufferHandle = NULL;
 
 
 // Prototype for LoRaWAN handler
@@ -47,8 +48,13 @@ void initialiseSystem()
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
-	// Initialise the LoRaWAN driver without down-link buffer
-	lora_driver_initialise(1, NULL);
+	
+	
+	// Initialise the LoRaWAN driver with down-link buffer
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
+	lora_driver_initialise(1, downLinkMessageBufferHandle);
+	
+	
 	// Create LoRaWAN task and start it up with priority 3
 	lora_handler_initialise(3);
 	if ( HIH8120_OK == hih8120_initialise() )
