@@ -138,8 +138,8 @@ void lora_downlink_handler_task(void *pvParameters) {
 				printf("%04x\n", co2LowerBound);
 				printf("%04x\n", co2UpperBound);
 				
-				setLowerConstraint(co2LowerBound);
-				setUpperConstraint(co2UpperBound);
+				setLowerConstraint(400);
+				setUpperConstraint(800);
 			}
 			
 			

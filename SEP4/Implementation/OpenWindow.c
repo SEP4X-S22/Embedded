@@ -8,7 +8,7 @@
 
 
 //extern EventGroupHandle_t readingsEventGroup;
-int readingsFromC02 = 0;
+int readingsFromC02 = 1000;
 int upperConstraint;
 int lowerConstraint;
 bool isWindowOpen = false;
@@ -65,7 +65,7 @@ void task_open_window(void *pvParameters){
 				isWindowOpen = true;
 				puts("Window opened.");
 			 }
-			 if(isWindowOpen && lowerConstraint<=readingsFromC02)
+			 if(isWindowOpen && lowerConstraint>=readingsFromC02)
 			 {
 				 rc_servo_setPosition(0, -90);
 				 isWindowOpen = false;
