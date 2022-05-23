@@ -5,15 +5,12 @@
 //Temp and humidity
 #include <rc_servo.h>
 #include <stdio.h>
-#include <event_groups.h>
-#include <avr/io.h>
-#include <stdio_driver.h>
-#include <serial.h>
 
 
 //extern EventGroupHandle_t readingsEventGroup;
 int readingsFromC02 = 0;
-int constraint = 1;
+int upperConstraint;
+int lowerConstraint;
 bool isWindowOpen = false;
 extern SemaphoreHandle_t c02Semaphore;
 
@@ -38,6 +35,14 @@ bool getIsWindowOpen()
 {
 	return isWindowOpen;
 }
+void setUpperConstraint(int up)
+{
+	upperConstraint = up;
+}
+void setLowerConstraint(int down)
+{
+	lowerConstraint = down;
+}
 
 void task_open_window(void *pvParameters){
 	TickType_t xLastWakeTime;
@@ -54,15 +59,15 @@ void task_open_window(void *pvParameters){
 			
  		if ( xSemaphoreTake(c02Semaphore, 0) == pdTRUE  )
  		{
-			 if(!isWindowOpen && constraint<=readingsFromC02)
+			 if(!isWindowOpen && upperConstraint<=readingsFromC02)
 			 {
-				rc_servo_setPosition(0, 100);
+				rc_servo_setPosition(0, 90);
 				isWindowOpen = true;
 				puts("Window opened.");
 			 }
-			 if(isWindowOpen && constraint>readingsFromC02)
+			 if(isWindowOpen && lowerConstraint<=readingsFromC02)
 			 {
-				 rc_servo_setPosition(0, -100);
+				 rc_servo_setPosition(0, -90);
 				 isWindowOpen = false;
 				 puts("Window closed.");
 			 }
