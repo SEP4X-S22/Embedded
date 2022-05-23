@@ -21,6 +21,7 @@ uint16_t getLatestCO2() {
 void task_co2_callback(uint16_t ppm)
 {
 	lastCO2Value = ppm;
+	printf("%d\n", getLatestCO2());
 	xEventGroupSetBits(readingsEventGroup, BIT_CO2);
 }
 
