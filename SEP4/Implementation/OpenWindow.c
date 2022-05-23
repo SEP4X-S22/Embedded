@@ -8,7 +8,7 @@
 
 
 //extern EventGroupHandle_t readingsEventGroup;
-int readingsFromC02 = 1000;
+int readingsFromC02 = 0;
 int upperConstraint;
 int lowerConstraint;
 bool isWindowOpen = false;
@@ -59,6 +59,8 @@ void task_open_window(void *pvParameters){
 			
  		if ( xSemaphoreTake(c02Semaphore, portMAX_DELAY) == pdTRUE  )
  		{
+			 readingsFromC02 = getLatestCO2();
+			 
 			 if(!isWindowOpen && upperConstraint<=readingsFromC02)
 			 {
 				rc_servo_setPosition(0, 100);

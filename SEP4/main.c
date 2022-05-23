@@ -49,6 +49,7 @@ void initialiseSystem()
 	stdio_initialise(ser_USART0);
 	// Let's create some tasks
 	create_task_temperature_humidity();
+	create_task_open_window();
 	create_task_c02();
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
