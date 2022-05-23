@@ -122,16 +122,15 @@ static void _lora_setup(void)
 	}
 }
 void lora_downlink_handler_task(void *pvParameters) {
-	
-	
-	downlinkPayload.len = 4;
-	downlinkPayload.portNo = 1;
 		
 	for(;;) {
 			// this code must be in the loop of a FreeRTOS task!
-			if(xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY) == pdPASS) {
-				printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+			printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+			if(4 == downlinkPayload.len) {
+				printf("%02x\n", downlinkPayload.bytes[0]);
 			}
+			
 	}
 }
 
@@ -172,7 +171,7 @@ void lora_handler_task( void *pvParameters )
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		
-		if(readingsStatus && (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
+		if(readingsStatus & (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
 		}
