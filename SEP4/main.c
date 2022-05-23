@@ -46,6 +46,7 @@ void initialiseSystem()
 	stdio_initialise(ser_USART0);
 	// Let's create some tasks
 	create_task_temperature_humidity();
+	create_task_open_window();
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
@@ -73,7 +74,7 @@ int main(void)
 	c02Semaphore = xSemaphoreCreateMutex();
 	if(c02Semaphore != NULL)
 	{
-		//xSemaphoreGive(c02Semaphore);
+		xSemaphoreGive(c02Semaphore);
 	}
 	readingsEventGroup = xEventGroupCreate();
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
