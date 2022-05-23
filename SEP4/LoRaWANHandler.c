@@ -20,13 +20,16 @@
 
 extern QueueHandle_t xQueue;
 extern EventGroupHandle_t readingsEventGroup;
+extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
 #define BIT_TEMPERATURE (1 << 0)
 #define BIT_HUMIDITY (1 << 1)
 
 void lora_handler_task( void *pvParameters );
+void lora_downlink_handler_task(void *pvParameters);
 
 static lora_driver_payload_t _uplink_payload;
+static lora_driver_payload_t downlinkPayload;
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 {
@@ -37,6 +40,13 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 	,  NULL
 	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
+	xTaskCreate(
+	lora_downlink_handler_task,
+	"DownlinkTask",
+	configMINIMAL_STACK_SIZE+200,
+	NULL,
+	lora_handler_task_priority,
+	NULL);
 }
 
 static void _lora_setup(void)
@@ -111,6 +121,19 @@ static void _lora_setup(void)
 		}
 	}
 }
+void lora_downlink_handler_task(void *pvParameters) {
+		
+	for(;;) {
+			// this code must be in the loop of a FreeRTOS task!
+			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+			printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+			if(4 == downlinkPayload.len) {
+				printf("%02x\n", downlinkPayload.bytes[0]);
+			}
+			
+	}
+}
+
 
 /*-----------------------------------------------------------*/
 void lora_handler_task( void *pvParameters )
@@ -148,7 +171,7 @@ void lora_handler_task( void *pvParameters )
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		
-		if(readingsStatus && (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
+		if(readingsStatus & (BIT_TEMPERATURE | BIT_HUMIDITY) == (BIT_TEMPERATURE | BIT_HUMIDITY)) {
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
 		}
