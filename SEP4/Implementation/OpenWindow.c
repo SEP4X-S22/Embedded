@@ -61,13 +61,13 @@ void task_open_window(void *pvParameters){
  		{
 			 readingsFromC02 = getLatestCO2();
 			 
-			 if(!isWindowOpen && upperConstraint<=readingsFromC02)
+			 if(!isWindowOpen && upperConstraint<readingsFromC02)
 			 {
 				rc_servo_setPosition(0, 100);
 				isWindowOpen = true;
 				printf("Window opened.\n");
 			 }
-			 if(isWindowOpen && lowerConstraint>=readingsFromC02)
+			 if(isWindowOpen && lowerConstraint>readingsFromC02)
 			 {
 				 rc_servo_setPosition(0, 0);
 				 isWindowOpen = false;
