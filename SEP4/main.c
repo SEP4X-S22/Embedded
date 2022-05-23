@@ -28,6 +28,7 @@ bool  temp;
 
 // define semaphore handle
 QueueHandle_t xQueue;
+SemaphoreHandle_t c02Semaphore;
 EventGroupHandle_t readingsEventGroup = NULL;
 MessageBufferHandle_t downLinkMessageBufferHandle = NULL;
 
@@ -69,6 +70,11 @@ int main(void)
 	initialiseSystem(); // Must be done as the very first thing!!
 	printf("Program Started!!\n");
 	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
+	c02Semaphore = xSemaphoreCreateMutex();
+	if(c02Semaphore != NULL)
+	{
+		//xSemaphoreGive(c02Semaphore);
+	}
 	readingsEventGroup = xEventGroupCreate();
 	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
 	
