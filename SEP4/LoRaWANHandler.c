@@ -122,15 +122,27 @@ static void _lora_setup(void)
 		}
 	}
 }
+
 void lora_downlink_handler_task(void *pvParameters) {
 		
 	for(;;) {
 			// this code must be in the loop of a FreeRTOS task!
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-			printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+			printf("DOWN LINK: from port: %d with %d bytes received!\n", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
 			if(4 == downlinkPayload.len) {
-				printf("%02x\n", downlinkPayload.bytes[0]);
+				uint16_t co2LowerBound;
+				uint16_t co2UpperBound;
+				
+				co2LowerBound = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+				co2UpperBound = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
+				
+				printf("%04d\n", co2LowerBound);
+				printf("%04d\n", co2UpperBound);
+				
+				setLowerConstraint(400);
+				setUpperConstraint(800);
 			}
+			
 			
 	}
 }
@@ -158,7 +170,6 @@ void lora_handler_task( void *pvParameters )
 	
 	for(;;)
 	{
-
 		EventBits_t readingsStatus;
 
 		// Creating the payload

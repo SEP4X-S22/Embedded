@@ -8,7 +8,7 @@
 
 
 //extern EventGroupHandle_t readingsEventGroup;
-int readingsFromC02 = 0;
+int readingsFromC02 = 1000;
 int upperConstraint;
 int lowerConstraint;
 bool isWindowOpen = false;
@@ -57,19 +57,19 @@ void task_open_window(void *pvParameters){
 	for(;;)
 	{
 			
- 		if ( xSemaphoreTake(c02Semaphore, 0) == pdTRUE  )
+ 		if ( xSemaphoreTake(c02Semaphore, portMAX_DELAY) == pdTRUE  )
  		{
 			 if(!isWindowOpen && upperConstraint<=readingsFromC02)
 			 {
-				rc_servo_setPosition(0, 90);
+				rc_servo_setPosition(0, 100);
 				isWindowOpen = true;
-				puts("Window opened.");
+				printf("Window opened.\n");
 			 }
-			 if(isWindowOpen && lowerConstraint<=readingsFromC02)
+			 if(isWindowOpen && lowerConstraint>=readingsFromC02)
 			 {
-				 rc_servo_setPosition(0, -90);
+				 rc_servo_setPosition(0, 0);
 				 isWindowOpen = false;
-				 puts("Window closed.");
+				 printf("Window closed.\n");
 			 }
 			 
 			 xSemaphoreGive(c02Semaphore);
