@@ -26,6 +26,9 @@
 #include<hih8120.h>
 bool  temp;
 
+// CO2 includes
+#include <CO2.h>
+
 // define semaphore handle
 QueueHandle_t xQueue;
 SemaphoreHandle_t c02Semaphore;
@@ -46,6 +49,7 @@ void initialiseSystem()
 	stdio_initialise(ser_USART0);
 	// Let's create some tasks
 	create_task_temperature_humidity();
+	create_task_c02();
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
