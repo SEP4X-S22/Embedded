@@ -1,4 +1,5 @@
 /*
+* Author: IHA
 * The backbone functionality of the project is taken from Ib Havn's repository https://github.com/ihavn/IoT_Semester_project
 */
 

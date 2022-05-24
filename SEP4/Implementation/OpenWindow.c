@@ -74,6 +74,7 @@ void task_open_window(void *pvParameters){
 	}
 
 	xLastWakeTime = xTaskGetTickCount();
+	
 	rc_servo_initialise();
 
 	for(;;)
