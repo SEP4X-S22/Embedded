@@ -60,6 +60,8 @@ void task_open_window(void *pvParameters){
  		if ( xSemaphoreTake(c02Semaphore, portMAX_DELAY) == pdTRUE  )
  		{
 			 readingsFromC02 = getLatestCO2();
+			 printf("The lower bound constraint: %d\n", lowerConstraint);
+			 printf("The upper bound constraint: %d\n", upperConstraint);
 			 
 			 if(!isWindowOpen && upperConstraint<readingsFromC02)
 			 {
