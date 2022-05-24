@@ -5,8 +5,12 @@
 #include <message_buffer.h>
 #include <serial.h>
 
+
+//Getting latest CO2 reading
 uint16_t getLatestCO2();
+//Callback to obtain the sensor's reading
 void task_co2_callback(uint16_t ppm);
+//Handling the creation of a task that manages CO2 readings
 void create_task_c02(void);
 
-#endif /* C02_H_ */
+#endif

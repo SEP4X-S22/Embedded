@@ -6,6 +6,7 @@
 #include <hih8120.h>
 #include <stdio.h>
 #include <event_groups.h>
+#include <semphr.h>
 
 //Indicates whether the initial setup went successfully
 extern bool  temp;
@@ -14,7 +15,7 @@ extern QueueHandle_t xQueue;
 //Event group for sequential execution of the tasks
 extern EventGroupHandle_t readingsEventGroup;
 
-//Defining the bit of the event group
+//Defining the bits of the event group
 #define BIT_TEMPERATURE (1 << 0)
 #define BIT_HUMIDITY (1 << 1)
 
@@ -29,7 +30,7 @@ void task_read_temp_humidity( void *pvParameters );
 void create_task_temperature_humidity(void)
 {
 	xTaskCreate(
-	task_read_temp_humidity
+	task_read_temp_humidity //Specifies which method implements the required functionality of the task
 	,  "task_read_temp_humidity"  // A name to indicate the task's function (does not affect the functionality in any way)
 	,  configMINIMAL_STACK_SIZE  // Stack area size that is specifically designated for this task
 	,  NULL //The arguments that will be passed to the task (if any)
@@ -37,6 +38,7 @@ void create_task_temperature_humidity(void)
 	,  NULL ); //The handle of the task (if any)
 }
 
+//Method that defines the functionality of a running task
 void task_read_temp_humidity(void *pvParameters){
 	//Variable to hold the current time
 	TickType_t xLastWakeTime;
