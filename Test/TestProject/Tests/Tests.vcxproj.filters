@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\TestProject\OpenWindow.c" />
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="FreeRTOS\FreeRTOS_FFF_MocksDefinitions.cpp">
+      <Filter>FreeRTOS</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\fff\fff.h" />
+    <ClInclude Include="FreeRTOS\event_groups.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\FreeRTOS.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\FreeRTOS_FFF_MocksDeclaration.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\message_buffer.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\queue.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\rc_servo.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\semphr.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\task.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeRTOS\timers.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="FreeRTOS">
+      <UniqueIdentifier>{f44922e5-e7e0-4fb3-96d3-8f142ac9480c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tests.rc" />
+  </ItemGroup>
+</Project>
