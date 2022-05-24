@@ -17,14 +17,11 @@
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "9226119BAA2DE982"
 #define LORA_appKEY "65DE3D06F8D11CAA807EE317C60E144D"
+#define BIT_COMPLETE (1 << 3)
 
 extern QueueHandle_t xQueue;
 extern EventGroupHandle_t readingsEventGroup;
 extern MessageBufferHandle_t downLinkMessageBufferHandle;
-
-#define BIT_TEMPERATURE (1 << 0)
-#define BIT_HUMIDITY (1 << 1)
-#define BIT_CO2 (1 << 2)
 
 void lora_handler_task( void *pvParameters );
 void lora_downlink_handler_task(void *pvParameters);
@@ -125,6 +122,7 @@ static void _lora_setup(void)
 
 void lora_downlink_handler_task(void *pvParameters) {
 		
+		
 	for(;;) {
 			// this code must be in the loop of a FreeRTOS task!
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
@@ -181,15 +179,13 @@ void lora_handler_task( void *pvParameters )
 		uint16_t co2_ppm = 0;
 		
 		//Waiting for all the bits to be set to 1
-		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2, pdTRUE, pdTRUE, portMAX_DELAY);
+		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_COMPLETE, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		
-		if(readingsStatus & (BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2) == (BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2)) {
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
 			co2_ppm = getLatestCO2();
 			
-		}
 		
 		puts("Sending to LoRaWAN");
 

@@ -7,9 +7,10 @@
 #include <stdio.h>
 #include <event_groups.h>
 
-extern QueueHandle_t xQueue;
 extern EventGroupHandle_t readingsEventGroup;
 
+#define BIT_TEMPERATURE (1 << 0)
+#define BIT_HUMIDITY (1 << 1)
 #define BIT_CO2 (1 << 2)
 
 uint16_t lastCO2Value = 0;
@@ -35,10 +36,12 @@ void task_read_c02(void *pvParameters)
 
 	for(;;)
 	{
+		EventBits_t readingsStatus;
+		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
 		int r = mh_z19_takeMeassuring();
 		if (r != MHZ19_OK) {
 			printf("Could not measure the C02");
-		}
+		}	
 		 xTaskDelayUntil(&xLastWakeTime, xFrequency);
 	}
 }
