@@ -131,7 +131,7 @@ void lora_downlink_handler_task(void *pvParameters) {
 		
 		
 	for(;;) {
-			//Awaiting for a message from the downlink message buffer
+			//Awaiting for a payload from the downlink message buffer
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 			//Printing out the port and length of the received payload
 			printf("DOWN LINK: from port: %d with %d bytes received!\n", downlinkPayload.portNo, downlinkPayload.len);
@@ -212,7 +212,7 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[3] = co2_ppm >> 8;
 		_uplink_payload.bytes[4] = co2_ppm & 0xFF;
 
-		//Sending the payload
+		//Sending the payload uplink
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 		
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
