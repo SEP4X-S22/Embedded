@@ -24,7 +24,7 @@
 // CO2 includes
 #include <CO2.h>
 
-//Indicator whether humidity and temperature sensor's setup was successful
+//Indicator whether temperature and humidity sensor's setup was successful
 bool  temp;
 //Queue into which the readings from sensors are put
 QueueHandle_t xQueue;
@@ -61,7 +61,7 @@ void initialiseSystem()
 	// Setting up LoRaWAN tasks for uplink and downlink operations
 	lora_handler_initialise(3);
 	
-	//Verifying that the humidity and temperature setup went as planned
+	//Verifying that the temperature and humidity setup went as planned
 	if ( HIH8120_OK == hih8120_initialise() )
 	{
 		temp = true;

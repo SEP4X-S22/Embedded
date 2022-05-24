@@ -6,7 +6,10 @@
 
 #include <serial.h>
 
+//Handling the creation of a task that manages temperature and humidity readings
 void create_task_temperature_humidity(void);
+
+//The method that defines the logic of the temperature and humidity task
 void task_read_temp_humidity(void *pvParameters);
 
-#endif /* TEMP_HUMIDITY_H_ */
+#endif
