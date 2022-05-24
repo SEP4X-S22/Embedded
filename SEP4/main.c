@@ -1,9 +1,5 @@
 /*
-* main.c
-* Author : IHA
-*
-* Example main file including LoRaWAN setup
-* Just for inspiration :)
+* The backbone functionality of the project is taken from Ib Havn's repository https://github.com/ihavn/IoT_Semester_project
 */
 
 #include <stdio.h>
@@ -24,14 +20,17 @@
 
 //Temp and humidity
 #include<hih8120.h>
-bool  temp;
 
 // CO2 includes
 #include <CO2.h>
 
-// define semaphore handle
+//Indicator whether humidity and temperature sensor's setup was successful
+bool  temp;
+//Queue into which the readings from sensors are put
 QueueHandle_t xQueue;
+//Event group for the tasks' order management
 EventGroupHandle_t readingsEventGroup = NULL;
+//Message buffer for downlink messages
 MessageBufferHandle_t downLinkMessageBufferHandle = NULL;
 
 
@@ -41,45 +40,47 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 /*-----------------------------------------------------------*/
 void initialiseSystem()
 {
-	// Set output ports for leds used in the example
-	DDRA |= _BV(DDA0) | _BV(DDA7);
 
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_initialise(ser_USART0);
-	// Let's create some tasks
+	
+	// Creating the tasks for sensors and the servo
 	create_task_temperature_humidity();
 	create_task_open_window();
 	create_task_c02();
-	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	// Status Leds driver
-	status_leds_initialise(5); // Priority 5 for internal task
+	
+	// Initializing LoRaWAN status leds
+	status_leds_initialise(5);
 	
 	
-	// Initialise the LoRaWAN driver with down-link buffer
+	// Initializing the LoRaWAN driver with a downlink buffer
 	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 	lora_driver_initialise(1, downLinkMessageBufferHandle);
 	
 	
-	// Create LoRaWAN task and start it up with priority 3
+	// Setting up LoRaWAN tasks for uplink and downlink operations
 	lora_handler_initialise(3);
+	
+	//Verifying that the humidity and temperature setup went as planned
 	if ( HIH8120_OK == hih8120_initialise() )
 	{
 		temp = true;
 	}
 }
 
-/*-----------------------------------------------------------*/
 int main(void)
 {
-	initialiseSystem(); // Must be done as the very first thing!!
+	// Setting up the sensors and the LoRaWAN handler that is responsible for the readings' transmission
+	initialiseSystem();
 	printf("Program Started!!\n");
-	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
-	readingsEventGroup = xEventGroupCreate();
-	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
 	
-	/* Replace with your application code */
-	while (1)
-	{
-	}
+	//Defining the queue
+	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
+	
+	//Defining the event group
+	readingsEventGroup = xEventGroupCreate();
+	
+	//Handing control over to the FreeRTOS
+	vTaskStartScheduler();
 }
 
