@@ -20,11 +20,12 @@ extern EventGroupHandle_t readingsEventGroup;
 //Last reading of the CO2 sensor
 uint16_t lastCO2Value = 0;
 
+// Simple getter function to retrieve latest CO2
 uint16_t getLatestCO2() {
 	return lastCO2Value;
 }
 
-//Persisting the reading when the sensor had read the CO2 level
+// Callback function for persisting the reading when the sensor had read the CO2 level
 void task_co2_callback(uint16_t ppm)
 {
 	lastCO2Value = ppm;
@@ -45,8 +46,11 @@ void task_read_c02(void *pvParameters)
 		EventBits_t readingsStatus;
 		//Waiting until the temperature and humidity bits are set
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
-		//Measuring CO2
+		
+		// Indicate the sensor to start making a measurement
 		int r = mh_z19_takeMeassuring();
+		
+		// If any errors occur when measuring print an error
 		if (r != MHZ19_OK) {
 			printf("Could not measure the C02");
 		}	
@@ -54,10 +58,13 @@ void task_read_c02(void *pvParameters)
 	}
 }
 
-//Creating the task for CO2 reading
+// Creating the task for CO2 reading
 void create_task_c02(void)
 {
+	// Initialize the CO2 sensor
 	mh_z19_initialise(ser_USART3);
+	
+	// Set the callback function so the sensor can call and give it the latest measurement
 	mh_z19_injectCallBack(task_co2_callback);
 	
 	xTaskCreate(

@@ -27,7 +27,7 @@ extern EventGroupHandle_t readingsEventGroup;
 //Message buffer for the downlink messages
 extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
-//Tasks' pretotypes
+//Tasks' prototypes
 void lora_handler_task( void *pvParameters );
 void lora_downlink_handler_task(void *pvParameters);
 
