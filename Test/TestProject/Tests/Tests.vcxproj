@@ -46,13 +46,28 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\SEP4\drivers\display_7seg.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\fifo.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\FreeRTOSTraceDriver.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\hcSr501.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\hih8120.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\lora_driver.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\lora_driver_utils.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\mh_z19.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\rc_servo.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\sen14262.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\serial.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\spi_iha.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\status_leds.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\stdio_driver.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\tsl2591.h" />
+    <ClInclude Include="..\..\..\SEP4\drivers\twi.h" />
     <ClInclude Include="..\fff\fff.h" />
     <ClInclude Include="FreeRTOS\event_groups.h" />
     <ClInclude Include="FreeRTOS\FreeRTOS.h" />
     <ClInclude Include="FreeRTOS\FreeRTOS_FFF_MocksDeclaration.h" />
     <ClInclude Include="FreeRTOS\message_buffer.h" />
     <ClInclude Include="FreeRTOS\queue.h" />
-    <ClInclude Include="FreeRTOS\rc_servo.h" />
     <ClInclude Include="FreeRTOS\semphr.h" />
     <ClInclude Include="FreeRTOS\task.h" />
     <ClInclude Include="FreeRTOS\timers.h" />
@@ -60,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tests.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\SEP4\drivers\libIotLibrary.a" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

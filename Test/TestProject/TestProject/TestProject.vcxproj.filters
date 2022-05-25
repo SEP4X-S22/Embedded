@@ -13,15 +13,98 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="FreeRTOS">
+      <UniqueIdentifier>{807050c1-196a-423f-99f7-ca574c1ab54b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drivers">
+      <UniqueIdentifier>{b7987a84-02b3-43a6-894a-ea6fab08ab12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenWindow.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\rc_servo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\timers.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\task.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\semphr.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\queue.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\message_buffer.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\FreeRTOS.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tests\FreeRTOS\event_groups.h">
+      <Filter>FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\rc_servo.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\mh_z19.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\twi.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\sen14262.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\serial.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\spi_iha.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\status_leds.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\stdio_driver.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\tsl2591.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\lora_driver.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\lora_driver_utils.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\hcSr501.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\hih8120.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\display_7seg.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\fifo.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SEP4\drivers\FreeRTOSTraceDriver.h">
+      <Filter>drivers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenWindow.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\SEP4\drivers\libIotLibrary.a">
+      <Filter>drivers</Filter>
+    </Library>
   </ItemGroup>
 </Project>
