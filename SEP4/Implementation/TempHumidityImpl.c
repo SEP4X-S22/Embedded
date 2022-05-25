@@ -8,7 +8,7 @@
 #include <event_groups.h>
 #include <semphr.h>
 
-//Indicates whether the initial setup went successfully
+//Indicates whether the initial temperature and humidity sensor setup went successfully
 extern bool  temp;
 //Queue for readings
 extern QueueHandle_t xQueue;
