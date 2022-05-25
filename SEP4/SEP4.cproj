@@ -303,10 +303,16 @@
     <Compile Include="Implementation\C02Impl.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Implementation\LightImpl.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Implementation\OpenWindow.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Interfaces\CO2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Light.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Interfaces\OpenWindow.h">

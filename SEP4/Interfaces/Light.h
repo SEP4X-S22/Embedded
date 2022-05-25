@@ -5,6 +5,8 @@
 
 
 void create_task_light(void);
+
+void task_read_light(void* parameters);
 //Callback to obtain the sensor's reading
 void task_light_callback(tsl2591_returnCode_t rc);
 

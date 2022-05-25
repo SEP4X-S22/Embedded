@@ -13,6 +13,7 @@
 #include <stdio_driver.h>
 #include <serial.h>
 #include <TempHumidity.h>
+#include <Light.h>
 
 // Needed for LoRaWAN
 #include <lora_driver.h>
@@ -49,6 +50,7 @@ void initialiseSystem()
 	create_task_temperature_humidity();
 	create_task_open_window();
 	create_task_c02();
+	create_task_light();
 	
 	// Initializing LoRaWAN status leds
 	status_leds_initialise(5);
