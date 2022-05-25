@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\..\SEP4\drivers\FreeRTOSTraceDriver.h">
       <Filter>drivers</Filter>
     </ClInclude>
+    <ClInclude Include="C02.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenWindow.c">

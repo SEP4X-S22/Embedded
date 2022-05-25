@@ -15,6 +15,7 @@ extern "C"
 	//created here, as it was throwing exceptions if outside
 	FAKE_VOID_FUNC(rc_servo_initialise);
 	FAKE_VOID_FUNC(rc_servo_setPosition, uint8_t, int8_t);
+	FAKE_VALUE_FUNC(uint16_t, getLatestCO2);
 	
 }
 
@@ -26,6 +27,7 @@ protected:
 		RESET_FAKE(rc_servo_initialise);
 		RESET_FAKE(rc_servo_setPosition);
 		RESET_FAKE(xSemaphoreTake);
+		RESET_FAKE(getLatestCO2);
 		FFF_RESET_HISTORY();
 	}
 
@@ -51,13 +53,14 @@ TEST_F(test, RunTask) {
 }
 
 TEST_F(test, OpenWindowNotChangedConstrint) {
+	getLatestCO2_fake.return_val = 50;
 	openCloseWindow();
 	EXPECT_EQ(1, xSemaphoreGive_fake.call_count);
 	EXPECT_EQ(0, rc_servo_setPosition_fake.call_count);
 }
 
 TEST_F(test, OpenWindowChangedConstrint) {
-	setUpperConstraint(-1);
+	getLatestCO2_fake.return_val = 101;
 	openCloseWindow();
 	EXPECT_EQ(1, xSemaphoreGive_fake.call_count);
 	EXPECT_EQ(1, rc_servo_setPosition_fake.call_count);

@@ -6,11 +6,12 @@
 #include "../Tests/FreeRTOS/event_groups.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include "C02.h"
 
 
 int readingsFromC02 = 0;
 //Upper and lower constraints of CO2 levels to which Servo has to react
-int upperConstraint = 0;
+int upperConstraint = 100;
 int lowerConstraint = 0;
 bool isWindowOpen = false;
 SemaphoreHandle_t constraintsHandle = NULL;
@@ -56,7 +57,7 @@ void task_open_window_run()
 	//readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_CO2, pdTRUE, pdTRUE, portMAX_DELAY);
 	if (xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdTRUE)
 	{
-		readingsFromC02 = 0;
+		
 		printf("The lower bound constraint: %d\n", lowerConstraint);
 		printf("The upper bound constraint: %d\n", upperConstraint);
 		openCloseWindow();
@@ -68,6 +69,7 @@ void task_open_window_run()
 
 void openCloseWindow()
 {
+	readingsFromC02 = getLatestCO2();
 	if (!isWindowOpen && upperConstraint < readingsFromC02)
 	{
 		rc_servo_setPosition(0, 100);

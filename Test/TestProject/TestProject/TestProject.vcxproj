@@ -163,6 +163,7 @@
     <ClInclude Include="..\Tests\FreeRTOS\semphr.h" />
     <ClInclude Include="..\Tests\FreeRTOS\task.h" />
     <ClInclude Include="..\Tests\FreeRTOS\timers.h" />
+    <ClInclude Include="C02.h" />
     <ClInclude Include="OpenWindow.h" />
   </ItemGroup>
   <ItemGroup>
