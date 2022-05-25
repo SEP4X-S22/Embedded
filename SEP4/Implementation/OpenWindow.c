@@ -19,9 +19,9 @@ SemaphoreHandle_t constraintsHandle = NULL;
 
 extern EventGroupHandle_t readingsEventGroup;
 
-#define BIT_CO2 (1 << 2)
+#define BIT_LIGHT (1 << 3)
 //Indicates that all of the tasks that needed to be done before transmission already ran
-#define BIT_COMPLETE (1 << 3)
+#define BIT_COMPLETE (1 << 4)
 
 //Servo task's prototype
 void task_open_window( void *pvParameters );
@@ -81,7 +81,7 @@ void task_open_window(void *pvParameters){
 	{
 			EventBits_t readingsStatus;
 			//Waiting for the CO2 bit to be set, meaning that the latest CO2 reading is available
-			readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_CO2, pdTRUE, pdTRUE, portMAX_DELAY);
+			readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_LIGHT, pdTRUE, pdTRUE, portMAX_DELAY);
 				
 		    //Obtaining mutex and performing Servo logic
 			if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdPASS) {

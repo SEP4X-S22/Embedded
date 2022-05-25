@@ -20,7 +20,7 @@
 #define LORA_appKEY "65DE3D06F8D11CAA807EE317C60E144D"
 
 //Event group bit indicating that all internal tasks were done and it is ready for transmission
-#define BIT_COMPLETE (1 << 3)
+#define BIT_COMPLETE (1 << 4)
 
 extern QueueHandle_t xQueue;
 extern EventGroupHandle_t readingsEventGroup;
@@ -176,7 +176,7 @@ void lora_handler_task( void *pvParameters )
 	_lora_setup();
 	
 	//Defining the length and port of the uplink payload
-	_uplink_payload.len = 5;
+	_uplink_payload.len = 7;
 	_uplink_payload.portNo = 1;
 
 	TickType_t xLastWakeTime;
@@ -193,6 +193,7 @@ void lora_handler_task( void *pvParameters )
 		int16_t temp = 0;
 		uint8_t hum = 0;
 		uint16_t co2_ppm = 0;
+		uint16_t light_lux = 0;
 		
 		//Waiting for the COMPLETE bit to be set, indicating that it is time for transmission
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_COMPLETE, pdTRUE, pdTRUE, portMAX_DELAY);
@@ -201,6 +202,7 @@ void lora_handler_task( void *pvParameters )
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
 			co2_ppm = getLatestCO2();
+			if(xQueueReceive(xQueue, &p, 0) == pdPASS) light_lux = p;
 			
 		
 		puts("Sending to LoRaWAN");
@@ -211,6 +213,9 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[2] = temp & 0xFF;
 		_uplink_payload.bytes[3] = co2_ppm >> 8;
 		_uplink_payload.bytes[4] = co2_ppm & 0xFF;
+		_uplink_payload.bytes[5] = light_lux >> 8;
+		_uplink_payload.bytes[6] = light_lux & 0xFF;
+		
 
 		//Sending the payload uplink
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
