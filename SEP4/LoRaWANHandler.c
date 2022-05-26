@@ -218,7 +218,7 @@ void lora_handler_task( void *pvParameters )
 		
 
 		//Sending the payload uplink
-		//printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 		
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}

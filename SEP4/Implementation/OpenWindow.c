@@ -70,6 +70,7 @@ void task_open_window(void *pvParameters){
 	
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 5 minutes
+	xLastWakeTime = xTaskGetTickCount();
 	
 	//Creating the mutex when the program is run for the first time
 	constraintsHandle = xSemaphoreCreateMutex();
@@ -77,7 +78,6 @@ void task_open_window(void *pvParameters){
 		xSemaphoreGive(constraintsHandle);
 	}
 
-	xLastWakeTime = xTaskGetTickCount();
 	
 	rc_servo_initialise();
 
@@ -114,9 +114,6 @@ void task_open_window(void *pvParameters){
 			 //Giving back the mutex when the Servo logic is done executing
 			 xSemaphoreGive(constraintsHandle);
 			}
-				
+				xTaskDelayUntil( &xLastWakeTime, xFrequency );
 			}
- 	
-		
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 }
