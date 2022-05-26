@@ -45,7 +45,7 @@ void task_read_c02(void *pvParameters)
 		//Variable to store event group's result
 		EventBits_t readingsStatus;
 		//Waiting until the temperature and humidity bits are set
-		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdFALSE, pdTRUE, portMAX_DELAY);
+		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		// Indicate the sensor to start making a measurement
 		int r = mh_z19_takeMeassuring();

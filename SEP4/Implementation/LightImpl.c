@@ -6,13 +6,9 @@
 #include <event_groups.h>
 #include <semphr.h>
 
-#define BIT_TEMPERATURE (1 << 0)
-#define BIT_HUMIDITY (1 << 1)
-#define BIT_CO2 (1 << 2)
 #define BIT_LIGHT (1 << 3)
 
 extern EventGroupHandle_t readingsEventGroup;
-extern QueueHandle_t xQueue;
 
 uint16_t lastLightValue = 0;
 
@@ -24,8 +20,6 @@ void task_read_light(void *pvparameters) {
 	xLastWakeTime = xTaskGetTickCount();
 	
 	for(;;) {
-		EventBits_t readingsStatus;
-		readingsStatus = xEventGroupWaitBits(readingsEventGroup,BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2, pdFALSE, pdTRUE, portMAX_DELAY);
 		
 		if ( TSL2591_OK != tsl2591_fetchData()) {
 			printf("Something went wrong with the light reading\n" );
@@ -55,7 +49,7 @@ uint16_t getLatestLight() {
 void create_task_light(void) {
 	
 	if ( TSL2591_OK != tsl2591_initialise(task_light_callback)) {
-		printf("Light sensor did not initialize successfully\n");
+		printf("Light sensor was not initialized successfully\n");
 
 	}
 	if(TSL2591_OK != tsl2591_enable()) {
