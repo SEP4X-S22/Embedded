@@ -74,7 +74,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>D:\VIA\Semester4\SEP4\IoT\Embedded\SEP4\Interfaces;D:\VIA\Semester4\SEP4\IoT\Embedded\TestProject\Tests\FreeRTOS;D:\VIA\Semester4\SEP4\IoT\Embedded\TestProject\Tests\drivers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\SEP4\Interfaces;..\Tests\FreeRTOS;..\Tests\drivers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
