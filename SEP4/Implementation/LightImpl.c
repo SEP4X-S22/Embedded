@@ -6,11 +6,15 @@
 #include <event_groups.h>
 #include <semphr.h>
 
+#define BIT_TEMPERATURE (1 << 0)
+#define BIT_HUMIDITY (1 << 1)
 #define BIT_CO2 (1 << 2)
 #define BIT_LIGHT (1 << 3)
 
 extern EventGroupHandle_t readingsEventGroup;
 extern QueueHandle_t xQueue;
+
+uint16_t lastLightValue = 0;
 
 
 void task_read_light(void *pvparameters) {
@@ -21,7 +25,7 @@ void task_read_light(void *pvparameters) {
 	
 	for(;;) {
 		EventBits_t readingsStatus;
-		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_CO2, pdTRUE, pdTRUE, portMAX_DELAY);
+		readingsStatus = xEventGroupWaitBits(readingsEventGroup,BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2, pdFALSE, pdTRUE, portMAX_DELAY);
 		
 		if ( TSL2591_OK != tsl2591_fetchData()) {
 			printf("Something went wrong with the light reading\n" );
@@ -37,23 +41,24 @@ void task_light_callback(tsl2591_returnCode_t rc) {
 	
 	if(rc = TSL2591_DATA_READY) {
 		if (TSL2591_OK == (rc = tsl2591_getLux(&lux))) {
-			if(xQueueSend(xQueue, ( void * ) &lux, 0) == pdPASS) {
+				lastLightValue = lux;
 				printf("The light measurement is: %5.2f\n", lux);
 				xEventGroupSetBits(readingsEventGroup, BIT_LIGHT);
 			}
 		}
-	}
+}
+
+uint16_t getLatestLight() {
+	return lastLightValue;
 }
 
 void create_task_light(void) {
 	
 	if ( TSL2591_OK != tsl2591_initialise(task_light_callback)) {
-		vTaskDelay(50);
 		printf("Light sensor did not initialize successfully\n");
 
 	}
 	if(TSL2591_OK != tsl2591_enable()) {
-		vTaskDelay(50);
 		printf("Light sensor was not enabled successfully\n");
 
 	}

@@ -10,4 +10,6 @@ void task_read_light(void *pvparameters);
 //Callback to obtain the sensor's reading
 void task_light_callback(tsl2591_returnCode_t rc);
 
+uint16_t getLatestLight();
+
 #endif

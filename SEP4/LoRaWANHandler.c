@@ -202,7 +202,7 @@ void lora_handler_task( void *pvParameters )
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
 			co2_ppm = getLatestCO2();
-			if(xQueueReceive(xQueue, &p, 0) == pdPASS) light_lux = p;
+			light_lux = getLatestLight();
 			
 		
 		puts("Sending to LoRaWAN");
