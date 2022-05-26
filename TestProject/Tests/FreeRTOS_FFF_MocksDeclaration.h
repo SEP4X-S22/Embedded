@@ -1,6 +1,6 @@
 #pragma once
 // FreeRTOS_FFF_MocksDeclaration.h
-#include "../../fff/fff.h"
+#include "../fff/fff.h"
 
 extern "C" {
 // The simulated FreeRTOS header files belonging to the test project

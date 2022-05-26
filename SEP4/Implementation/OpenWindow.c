@@ -1,10 +1,11 @@
-#include <OpenWindow.h>
+#include "OpenWindow.h"
 #include "ATMEGA_FreeRTOS.h"
 #include "task.h"
 #include "semphr.h"
 #include "C02.h"
 #include "rc_servo.h"
 #include <stdio.h>
+#include <stdbool.h>
 #include "event_groups.h"
 
 //for the delay
@@ -50,7 +51,7 @@ bool getIsWindowOpen()
 //Setting the upper constraint of CO2 levels. Protected by mutex
 void setUpperConstraint(int up)
 {
-	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdPASS) {
+	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdTRUE) {
 		upperConstraint = up;
 		xSemaphoreGive(constraintsHandle);
 	}
@@ -59,7 +60,7 @@ void setUpperConstraint(int up)
 //Setting the lower constraint of CO2 levels. Protected by mutex
 void setLowerConstraint(int down)
 {
-	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdPASS) {
+	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdTRUE) {
 		lowerConstraint = down;
 		xSemaphoreGive(constraintsHandle);
 	}
@@ -96,7 +97,7 @@ void task_open_window_run()
 	readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_LIGHT, pdTRUE, pdTRUE, portMAX_DELAY);
 	
 	//Obtaining mutex and performing Servo logic
-	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdPASS) {
+	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdTRUE) {
 		readingsFromC02 = getLatestCO2();
 		printf("The lower bound constraint: %d\n", lowerConstraint);
 		printf("The upper bound constraint: %d\n", upperConstraint);
@@ -121,7 +122,7 @@ void task_open_window_run()
 		xEventGroupSetBits(readingsEventGroup, BIT_COMPLETE);
 		//Giving back the mutex when the Servo logic is done executing
 		xSemaphoreGive(constraintsHandle);
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		vTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
 	
 }

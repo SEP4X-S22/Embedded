@@ -36,47 +36,29 @@
     <IncludePath>D:\VIA\Semester4\SEP4\IoT\Embedded\Test\TestProject\TestProject;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\SEP4\Implementation\OpenWindow.c" />
-    <ClCompile Include="FreeRTOS\FreeRTOS_FFF_MocksDefinitions.cpp" />
+    <ClCompile Include="..\..\SEP4\Implementation\OpenWindow.c" />
+    <ClCompile Include="FreeRTOS_FFF_MocksDefinitions.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Tests.aps" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\SEP4\drivers\display_7seg.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\fifo.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\FreeRTOSTraceDriver.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\hcSr501.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\hih8120.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\lora_driver.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\lora_driver_utils.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\mh_z19.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\rc_servo.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\sen14262.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\serial.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\spi_iha.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\status_leds.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\stdio_driver.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\tsl2591.h" />
-    <ClInclude Include="..\..\..\SEP4\drivers\twi.h" />
-    <ClInclude Include="..\..\..\SEP4\Interfaces\OpenWindow.h" />
     <ClInclude Include="..\fff\fff.h" />
-    <ClInclude Include="FreeRTOS\ATMEGA_FreeRTOS.h" />
-    <ClInclude Include="FreeRTOS\event_groups.h" />
-    <ClInclude Include="FreeRTOS\FreeRTOS_FFF_MocksDeclaration.h" />
-    <ClInclude Include="FreeRTOS\message_buffer.h" />
-    <ClInclude Include="FreeRTOS\queue.h" />
-    <ClInclude Include="FreeRTOS\semphr.h" />
-    <ClInclude Include="FreeRTOS\task.h" />
-    <ClInclude Include="FreeRTOS\timers.h" />
+    <ClInclude Include="ATMEGA_FreeRTOS.h" />
+    <ClInclude Include="drivers\rc_servo.h" />
+    <ClInclude Include="event_groups.h" />
+    <ClInclude Include="FreeRTOS_FFF_MocksDeclaration.h" />
+    <ClInclude Include="message_buffer.h" />
+    <ClInclude Include="queue.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="semphr.h" />
+    <ClInclude Include="task.h" />
+    <ClInclude Include="timers.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tests.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\SEP4\drivers\libIotLibrary.a" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -92,6 +74,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>D:\VIA\Semester4\SEP4\IoT\Embedded\SEP4\Interfaces;D:\VIA\Semester4\SEP4\IoT\Embedded\TestProject\Tests\FreeRTOS;D:\VIA\Semester4\SEP4\IoT\Embedded\TestProject\Tests\drivers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
