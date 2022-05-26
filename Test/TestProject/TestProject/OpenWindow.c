@@ -15,7 +15,7 @@ int upperConstraint = 100;
 int lowerConstraint = 0;
 bool isWindowOpen = false;
 SemaphoreHandle_t constraintsHandle = NULL;
-//extern EventGroupHandle_t readingsEventGroup;
+extern EventGroupHandle_t readingsEventGroup;
 
 #define BIT_CO2 (1 << 2)
 //Indicates that all of the tasks that needed to be done before transmission already ran
@@ -52,9 +52,9 @@ void task_open_window_init()
 
 void task_open_window_run()
 {
-	//EventBits_t readingsStatus;
+	EventBits_t readingsStatus;
 	//Waiting for the CO2 bit to be set, meaning that the latest CO2 reading is available
-	//readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_CO2, pdTRUE, pdTRUE, portMAX_DELAY);
+	readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_CO2, pdTRUE, pdTRUE, portMAX_DELAY);
 	if (xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdTRUE)
 	{
 		
@@ -82,7 +82,7 @@ void openCloseWindow()
 		isWindowOpen = false;
 		puts("Window closed.");
 	}
-	//xEventGroupSetBits(readingsEventGroup, BIT_COMPLETE);
+	xEventGroupSetBits(readingsEventGroup, BIT_COMPLETE);
 	//Giving back the mutex when the Servo logic is done executing
 	xSemaphoreGive(constraintsHandle);
 }

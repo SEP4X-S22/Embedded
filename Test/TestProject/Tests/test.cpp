@@ -16,6 +16,7 @@ extern "C"
 	FAKE_VOID_FUNC(rc_servo_initialise);
 	FAKE_VOID_FUNC(rc_servo_setPosition, uint8_t, int8_t);
 	FAKE_VALUE_FUNC(uint16_t, getLatestCO2);
+	EventGroupHandle_t readingsEventGroup = xEventGroupCreate();
 	
 }
 
