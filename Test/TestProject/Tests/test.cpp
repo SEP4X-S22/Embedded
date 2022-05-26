@@ -1,14 +1,14 @@
 #include "gtest/gtest.h"
-#include "../Tests/FreeRTOS/FreeRTOS_FFF_MocksDeclaration.h"
+#include "FreeRTOS_FFF_MocksDeclaration.h"
 #include "../fff/fff.h"
 
 extern "C"
 {
-	#include "../TestProject/OpenWindow.h"
-	#include "../Tests/FreeRTOS/FreeRTOS.h"
+	#include "../../../SEP4/Interfaces/OpenWindow.h"
+	#include "../Tests/FreeRTOS/ATMEGA_FreeRTOS.h"
 	#include "../Tests/FreeRTOS/task.h"
-	#include "../Tests/FreeRTOS/semphr.h"
-	#include "../../../SEP4/drivers/rc_servo.h"
+	#include "semphr.h"
+	#include <rc_servo.h>
 	#include <stdio.h>
 	#include <stdbool.h>
 	//creating mocks for the rc_servo functions
@@ -55,14 +55,14 @@ TEST_F(test, RunTask) {
 
 TEST_F(test, OpenWindowNotChangedConstrint) {
 	getLatestCO2_fake.return_val = 50;
-	openCloseWindow();
+	//openCloseWindow();
 	EXPECT_EQ(1, xSemaphoreGive_fake.call_count);
 	EXPECT_EQ(0, rc_servo_setPosition_fake.call_count);
 }
 
 TEST_F(test, OpenWindowChangedConstrint) {
 	getLatestCO2_fake.return_val = 101;
-	openCloseWindow();
+	//openCloseWindow();
 	EXPECT_EQ(1, xSemaphoreGive_fake.call_count);
 	EXPECT_EQ(1, rc_servo_setPosition_fake.call_count);
 }

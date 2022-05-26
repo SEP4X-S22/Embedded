@@ -36,10 +36,8 @@
     <IncludePath>D:\VIA\Semester4\SEP4\IoT\Embedded\Test\TestProject\TestProject;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="..\TestProject\OpenWindow.c" />
-    <ClCompile Include="FreeRTOS\FreeRTOS_FFF_MocksDefinitions.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
+    <ClCompile Include="..\..\..\SEP4\Implementation\OpenWindow.c" />
+    <ClCompile Include="FreeRTOS\FreeRTOS_FFF_MocksDefinitions.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -62,9 +60,10 @@
     <ClInclude Include="..\..\..\SEP4\drivers\stdio_driver.h" />
     <ClInclude Include="..\..\..\SEP4\drivers\tsl2591.h" />
     <ClInclude Include="..\..\..\SEP4\drivers\twi.h" />
+    <ClInclude Include="..\..\..\SEP4\Interfaces\OpenWindow.h" />
     <ClInclude Include="..\fff\fff.h" />
+    <ClInclude Include="FreeRTOS\ATMEGA_FreeRTOS.h" />
     <ClInclude Include="FreeRTOS\event_groups.h" />
-    <ClInclude Include="FreeRTOS\FreeRTOS.h" />
     <ClInclude Include="FreeRTOS\FreeRTOS_FFF_MocksDeclaration.h" />
     <ClInclude Include="FreeRTOS\message_buffer.h" />
     <ClInclude Include="FreeRTOS\queue.h" />

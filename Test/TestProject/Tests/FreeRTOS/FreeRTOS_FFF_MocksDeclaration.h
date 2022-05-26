@@ -4,7 +4,7 @@
 
 extern "C" {
 // The simulated FreeRTOS header files belonging to the test project
-#include "FreeRTOS.h" 
+#include "ATMEGA_FreeRTOS.h" 
 #include "task.h"
 #include "semphr.h"
 #include "queue.h"

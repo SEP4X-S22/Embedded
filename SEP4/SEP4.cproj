@@ -303,6 +303,9 @@
     <Compile Include="Implementation\OpenWindow.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Interfaces\C02.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Interfaces\OpenWindow.h">
       <SubType>compile</SubType>
     </Compile>
