@@ -15,6 +15,7 @@ extern "C"
 	FAKE_VOID_FUNC(rc_servo_initialise);
 	FAKE_VOID_FUNC(rc_servo_setPosition, uint8_t, int8_t);
 	FAKE_VALUE_FUNC(uint16_t, getLatestCO2);
+	FAKE_VOID_FUNC(xTaskDelayUntil, TickType_t*, TickType_t);
 	EventGroupHandle_t readingsEventGroup = xEventGroupCreate();
 
 }
@@ -22,7 +23,7 @@ extern "C"
 class test : public ::testing::Test {
 protected:
 	void SetUp() override {
-		RESET_FAKE(vTaskDelayUntil);
+		RESET_FAKE(xTaskDelayUntil);
 		RESET_FAKE(xSemaphoreGive);
 		RESET_FAKE(rc_servo_initialise);
 		RESET_FAKE(rc_servo_setPosition);
@@ -61,7 +62,7 @@ TEST_F(test, RunTask) {
 	EXPECT_EQ(1, getLatestCO2_fake.call_count);
 	EXPECT_EQ(1, xEventGroupSetBits_fake.call_count);
 	EXPECT_EQ(3, xSemaphoreGive_fake.call_count);
-	EXPECT_EQ(1, vTaskDelayUntil_fake.call_count);
+	EXPECT_EQ(1, xTaskDelayUntil_fake.call_count);
 }
 
 
@@ -77,7 +78,7 @@ TEST_F(test, OpenWindowNotChangedConstrint) {
 	EXPECT_EQ(1, getLatestCO2_fake.call_count);
 	EXPECT_EQ(1, xEventGroupSetBits_fake.call_count);
 	EXPECT_EQ(3, xSemaphoreGive_fake.call_count);
-	EXPECT_EQ(1, vTaskDelayUntil_fake.call_count);
+	EXPECT_EQ(1, xTaskDelayUntil_fake.call_count);
 	EXPECT_EQ(0, rc_servo_setPosition_fake.call_count);
 }
 
@@ -93,7 +94,7 @@ TEST_F(test, OpenWindowChangedConstrint) {
 	EXPECT_EQ(1, getLatestCO2_fake.call_count);
 	EXPECT_EQ(1, xEventGroupSetBits_fake.call_count);
 	EXPECT_EQ(3, xSemaphoreGive_fake.call_count);
-	EXPECT_EQ(1, vTaskDelayUntil_fake.call_count);
+	EXPECT_EQ(1, xTaskDelayUntil_fake.call_count);
 	EXPECT_EQ(1, rc_servo_setPosition_fake.call_count);
 }
 
