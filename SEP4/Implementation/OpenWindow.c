@@ -127,7 +127,7 @@ void task_open_window_run()
 		xEventGroupSetBits(readingsEventGroup, BIT_COMPLETE);
 		//Giving back the mutex when the Servo logic is done executing
 		xSemaphoreGive(constraintsHandle);
-		vTaskDelayUntil( &xLastWakeTime, xFrequency );
+		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
 	
 }
