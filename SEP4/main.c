@@ -3,28 +3,26 @@
 * The backbone functionality of the project is taken from Ib Havn's repository https://github.com/ihavn/IoT_Semester_project
 */
 
+// Needed for LoRaWAN
+#include <lora_driver.h>
+#include <status_leds.h>
+
 #include <stdio.h>
 #include <avr/io.h>
 
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
-#include <semphr.h>
-
 #include <stdio_driver.h>
 #include <serial.h>
+
 #include <TempHumidity.h>
 #include <Light.h>
-
-// Needed for LoRaWAN
-#include <lora_driver.h>
-#include <status_leds.h>
-#include <event_groups.h>
-
-//Temp and humidity
-#include<hih8120.h>
-
-// CO2 includes
 #include <CO2.h>
+
+#include <event_groups.h>
+#include <semphr.h>
+#include <hih8120.h>
+
 
 //Indicator whether temperature and humidity sensor's setup was successful
 bool  temp;
@@ -79,7 +77,6 @@ int main(void)
 	
 	//Defining the queue
 	xQueue = xQueueCreate( 10, sizeof( unsigned long ) );
-	
 	//Defining the event group
 	readingsEventGroup = xEventGroupCreate();
 	
