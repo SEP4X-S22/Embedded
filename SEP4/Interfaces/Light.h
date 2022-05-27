@@ -1,5 +1,6 @@
 #ifndef LIGHT_H
 #define LIGHT_H
+
 #include <ATMEGA_FreeRTOS.h>
 #include <tsl2591.h>
 
@@ -12,4 +13,4 @@ void task_light_callback(tsl2591_returnCode_t rc);
 
 uint16_t getLatestLight();
 
-#endif
+#endif /* LIGHT_H */

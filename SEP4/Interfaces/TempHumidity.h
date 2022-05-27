@@ -12,4 +12,4 @@ void create_task_temperature_humidity(void);
 //The method that defines the logic of the temperature and humidity task
 void task_read_temp_humidity(void *pvParameters);
 
-#endif
+#endif /* TEMP_HUMIDITY_H_ */

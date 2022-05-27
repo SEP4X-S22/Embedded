@@ -1,12 +1,24 @@
 #include "OpenWindow.h"
 #include "ATMEGA_FreeRTOS.h"
 #include "task.h"
+#include <stdio.h>
+#include <stdbool.h>
+
 #include "semphr.h"
 #include "CO2.h"
 #include "rc_servo.h"
-#include <stdio.h>
-#include <stdbool.h>
 #include "event_groups.h"
+
+#define BIT_TEMPERATURE (1 << 0)
+#define BIT_HUMIDITY (1 << 1)
+#define BIT_CO2 (1 << 2)
+#define BIT_LIGHT (1 << 3)
+//Indicates that all of the tasks that needed to be done before transmission already ran
+#define BIT_COMPLETE (1 << 4)
+
+
+SemaphoreHandle_t constraintsHandle = NULL;
+extern EventGroupHandle_t readingsEventGroup;
 
 //for the delay
 TickType_t xLastWakeTime;
@@ -14,24 +26,10 @@ const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 5 minutes
 
 //Variable for latest CO2 reading
 int readingsFromC02 = 0;
-
 //Upper and lower constraints of CO2 levels to which Servo has to react
 int upperConstraint = 0;
 int lowerConstraint = 0;
-
 bool isWindowOpen = false;
-SemaphoreHandle_t constraintsHandle = NULL;
-
-extern EventGroupHandle_t readingsEventGroup;
-
-
-#define BIT_TEMPERATURE (1 << 0)
-#define BIT_HUMIDITY (1 << 1)
-#define BIT_CO2 (1 << 2)
-#define BIT_LIGHT (1 << 3)
-
-//Indicates that all of the tasks that needed to be done before transmission already ran
-#define BIT_COMPLETE (1 << 4)
 
 //Servo task's prototype
 void task_open_window( void *pvParameters );
@@ -95,6 +93,7 @@ void task_open_window_init()
 		
 		rc_servo_initialise();
 }
+
 void task_open_window_run()
 {
 	EventBits_t readingsStatus;
@@ -107,13 +106,12 @@ void task_open_window_run()
 		printf("The lower bound constraint: %d\n", lowerConstraint);
 		printf("The upper bound constraint: %d\n", upperConstraint);
 		
-		
 		//If the "window" was closed and the current CO2 reading is higher than the recommended upper bound, the "window" opens
 		if(!isWindowOpen && upperConstraint<readingsFromC02)
 		{
 			rc_servo_setPosition(0, 100);
 			isWindowOpen = true;
-			printf("Window opened.\n");
+			printf("Window opened\n");
 		}
 		
 		//If the "window" was open and the current CO2 reading is less than the recommended lower bound, the "window" closes
@@ -121,12 +119,13 @@ void task_open_window_run()
 		{
 			rc_servo_setPosition(0, 0);
 			isWindowOpen = false;
-			printf("Window closed.\n");
+			printf("Window closed\n");
 		}
 		//Setting the complete bit, indicating that all internal tasks were done and it is ready for transmission
 		xEventGroupSetBits(readingsEventGroup, BIT_COMPLETE);
 		//Giving back the mutex when the Servo logic is done executing
 		xSemaphoreGive(constraintsHandle);
+		
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
 	

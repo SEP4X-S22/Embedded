@@ -13,4 +13,4 @@ void task_co2_callback(uint16_t ppm);
 //Handling the creation of a task that manages CO2 readings
 void create_task_c02(void);
 
-#endif
+#endif /* CO2_H_ */
