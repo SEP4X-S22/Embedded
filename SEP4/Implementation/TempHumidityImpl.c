@@ -13,7 +13,7 @@
 #define BIT_HUMIDITY (1 << 1)
 
 //Indicates whether the initial temperature and humidity sensor setup went successfully
-extern bool  temp;
+extern bool temp;
 //Queue for readings
 extern QueueHandle_t xQueue;
 //Event group for sequential execution of the tasks
@@ -40,12 +40,11 @@ void create_task_temperature_humidity(void)
 
 //Method that defines the functionality of a running task
 void task_read_temp_humidity(void *pvParameters){
+	
 	//Variable to hold the current time
 	TickType_t xLastWakeTime;
-	
 	//The frequency at which the task will run
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // 5 minutes
-
 	// Initializing the xLastWakeTime variable with the current time
 	xLastWakeTime = xTaskGetTickCount();
 

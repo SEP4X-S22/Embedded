@@ -30,6 +30,7 @@ void task_co2_callback(uint16_t ppm)
 	xEventGroupSetBits(readingsEventGroup, BIT_CO2);
 }
 
+//Task to read CO2 value and then pause for 5 minute. Runs forever
 void task_read_c02(void *pvParameters)
 {
 	TickType_t xLastWakeTime;

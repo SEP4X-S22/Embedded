@@ -5,7 +5,6 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <message_buffer.h>
 
-
 //Getting latest CO2 reading
 uint16_t getLatestCO2();
 //Callback to obtain the sensor's reading

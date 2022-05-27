@@ -15,6 +15,7 @@
 #include <stdio_driver.h>
 #include <serial.h>
 
+//Sensors' header files
 #include <TempHumidity.h>
 #include <Light.h>
 #include <CO2.h>
@@ -38,14 +39,14 @@ MessageBufferHandle_t downLinkMessageBufferHandle = NULL;
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
-/*-----------------------------------------------------------*/
+// Setting up the sensors and the LoRaWAN handler that is responsible for the readings' transmission
 void initialiseSystem()
 {
 
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_initialise(ser_USART0);
 	
-	// Creating the tasks for sensors and the servo
+	// Creating the tasks for the sensors and the servo
 	create_task_temperature_humidity();
 	create_task_open_window();
 	create_task_c02();
@@ -72,7 +73,6 @@ void initialiseSystem()
 
 int main(void)
 {
-	// Setting up the sensors and the LoRaWAN handler that is responsible for the readings' transmission
 	initialiseSystem();
 	printf("Program Started!!\n");
 	

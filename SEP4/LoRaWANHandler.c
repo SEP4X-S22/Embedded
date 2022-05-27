@@ -14,7 +14,6 @@
 
 #include <OpenWindow.h>
 #include <CO2.h>
-#include <Light.h>
 
 #include <queue.h>
 #include "event_groups.h"
@@ -205,11 +204,12 @@ void lora_handler_task( void *pvParameters )
 		//Getting the readings
 		if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
 		if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
-		//Read directly because of the callback mechanic
+		if(xQueueReceive(xQueue, &p, 0) == pdPASS) light_lux = p;
+		//Because of the callback method putting out 0 upon launch, the actual CO2 value has to be fetched through a getter
 		co2_ppm = getLatestCO2();
-		light_lux = getLatestLight();	
 		
 		puts("Sending to LoRaWAN");
+
 
 		//Populating the payload with the latest readings
 		_uplink_payload.bytes[0] = hum;
