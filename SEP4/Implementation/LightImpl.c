@@ -1,8 +1,8 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 #include <stdio.h>
-#include <tsl2591.h>
 
+#include <tsl2591.h>
 #include <event_groups.h>
 #include <semphr.h>
 
@@ -15,7 +15,6 @@ extern EventGroupHandle_t readingsEventGroup;
 extern QueueHandle_t xQueue;
 
 uint16_t lastLightValue = 0;
-
 
 void task_read_light(void *pvparameters) {
 	
@@ -32,8 +31,6 @@ void task_read_light(void *pvparameters) {
 		}
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
-	
-	
 }
 
 void task_light_callback(tsl2591_returnCode_t rc) {
@@ -62,7 +59,6 @@ void create_task_light(void) {
 		printf("Light sensor was not enabled successfully\n");
 
 	}
-		
 	 xTaskCreate(
 		task_read_light,
 		"Gathering light readings",

@@ -74,7 +74,6 @@ void task_read_temp_humidity(void *pvParameters){
 					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) {
 						printf("%f\n",humidity);
 						xEventGroupSetBits(readingsEventGroup, BIT_HUMIDITY);
-						
 					}
 				}
 			}
