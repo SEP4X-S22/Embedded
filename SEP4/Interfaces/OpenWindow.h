@@ -8,8 +8,6 @@ void create_task_open_window(void);
 
 //Method that defines the functionality of Servo task
 void task_open_window(void *pvParameters);
-void task_open_window_init();
-void task_open_window_run();
 
 //Checks whether the window is open
 bool getIsWindowOpen();
