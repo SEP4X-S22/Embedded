@@ -65,14 +65,14 @@ void task_read_temp_humidity(void *pvParameters){
 					temperature = hih8120_getTemperature();
 					//Enqueueing the reading
 					if(xQueueSend(xQueue, ( void * ) &temperature, 0) == pdPASS) {
-						printf("%f\n",temperature);
+						printf("The temperature is %f Celsius\n",temperature);
 						//Setting the temperature bit to 1 in the event group
 						xEventGroupSetBits(readingsEventGroup, BIT_TEMPERATURE);
 						}
 					//Same steps as for temperature, but for humidity
 					humidity = hih8120_getHumidity();
 					if(xQueueSend(xQueue, ( void * ) &humidity, 0) == pdPASS) {
-						printf("%f\n",humidity);
+						printf("The humidity is %f percent\n",humidity);
 						xEventGroupSetBits(readingsEventGroup, BIT_HUMIDITY);
 					}
 				}

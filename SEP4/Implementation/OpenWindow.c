@@ -98,7 +98,7 @@ void task_open_window_run()
 {
 	EventBits_t readingsStatus;
 	//Waiting for the CO2 bit to be set, meaning that the latest CO2 reading is available
-	readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_TEMPERATURE | BIT_HUMIDITY | BIT_CO2 | BIT_LIGHT, pdTRUE, pdTRUE, portMAX_DELAY);
+	readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_LIGHT, pdTRUE, pdTRUE, portMAX_DELAY);
 	
 	//Obtaining mutex and performing Servo logic
 	if(xSemaphoreTake(constraintsHandle, portMAX_DELAY) == pdTRUE) {
