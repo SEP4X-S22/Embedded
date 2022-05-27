@@ -1,5 +1,6 @@
 #ifndef CO2_H_
 #define CO2_H_
+
 #include <stdbool.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <message_buffer.h>

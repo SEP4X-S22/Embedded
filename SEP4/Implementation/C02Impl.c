@@ -1,21 +1,18 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
-#include <semphr.h>
-
-// Includes for C02
-#include <mh_z19.h>
 #include <stdio.h>
+
+#include <mh_z19.h>
+#include <semphr.h>
 #include <event_groups.h>
-
-
-//Event group for sequential execution of the tasks
-extern EventGroupHandle_t readingsEventGroup;
-
 
 //Defining the bits of the event group
 #define BIT_TEMPERATURE (1 << 0)
 #define BIT_HUMIDITY (1 << 1)
 #define BIT_CO2 (1 << 2)
+
+//Event group for sequential execution of the tasks
+extern EventGroupHandle_t readingsEventGroup;
 
 //Last reading of the CO2 sensor
 uint16_t lastCO2Value = 0;
