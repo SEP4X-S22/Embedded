@@ -6,8 +6,6 @@
 #include <event_groups.h>
 #include <semphr.h>
 
-#define BIT_TEMPERATURE (1 << 0)
-#define BIT_HUMIDITY (1 << 1)
 #define BIT_CO2 (1 << 2)
 #define BIT_LIGHT (1 << 3)
 

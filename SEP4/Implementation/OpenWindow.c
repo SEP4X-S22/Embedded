@@ -9,13 +9,9 @@
 #include "rc_servo.h"
 #include "event_groups.h"
 
-#define BIT_TEMPERATURE (1 << 0)
-#define BIT_HUMIDITY (1 << 1)
-#define BIT_CO2 (1 << 2)
 #define BIT_LIGHT (1 << 3)
 //Indicates that all of the tasks that needed to be done before transmission already ran
 #define BIT_COMPLETE (1 << 4)
-
 
 SemaphoreHandle_t constraintsHandle = NULL;
 extern EventGroupHandle_t readingsEventGroup;
