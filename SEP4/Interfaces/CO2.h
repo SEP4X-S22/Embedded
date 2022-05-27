@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <message_buffer.h>
-#include <serial.h>
 
 
 //Getting latest CO2 reading
