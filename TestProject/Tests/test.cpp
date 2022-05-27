@@ -4,7 +4,7 @@
 
 extern "C"
 {
-	#include "../../SEP4/Interfaces/OpenWindow.h"
+	#include "OpenWindow.h"
 	#include "ATMEGA_FreeRTOS.h"
 	#include "task.h"
 	#include "semphr.h"
@@ -12,7 +12,6 @@ extern "C"
 	#include <stdio.h>
 	#include <stdbool.h>
 	//creating mocks for the rc_servo functions
-	//created here, as it was throwing exceptions if outside
 	FAKE_VOID_FUNC(rc_servo_initialise);
 	FAKE_VOID_FUNC(rc_servo_setPosition, uint8_t, int8_t);
 	FAKE_VALUE_FUNC(uint16_t, getLatestCO2);
@@ -65,6 +64,7 @@ TEST_F(test, RunTask) {
 	EXPECT_EQ(1, vTaskDelayUntil_fake.call_count);
 }
 
+
 TEST_F(test, OpenWindowNotChangedConstrint) {
 	getLatestCO2_fake.return_val = 40;
 	xEventGroupWaitBits_fake.return_val = pdTRUE;
@@ -96,3 +96,5 @@ TEST_F(test, OpenWindowChangedConstrint) {
 	EXPECT_EQ(1, vTaskDelayUntil_fake.call_count);
 	EXPECT_EQ(1, rc_servo_setPosition_fake.call_count);
 }
+
+
