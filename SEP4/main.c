@@ -18,6 +18,7 @@
 #include <TempHumidity.h>
 #include <Light.h>
 #include <CO2.h>
+#include <OpenWindow.h>
 
 #include <event_groups.h>
 #include <semphr.h>

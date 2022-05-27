@@ -36,7 +36,7 @@ void task_read_light(void *pvparameters) {
 void task_light_callback(tsl2591_returnCode_t rc) {
 	float lux = 0;
 	
-	if(rc = TSL2591_DATA_READY) {
+	if(rc == TSL2591_DATA_READY) {
 		if (TSL2591_OK == (rc = tsl2591_getLux(&lux))) {
 				lastLightValue = lux;
 				printf("The light measurement is: %5.2f\n", lux);

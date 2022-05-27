@@ -7,11 +7,15 @@
 */
 #include <stddef.h>
 #include <stdio.h>
-
 #include <ATMEGA_FreeRTOS.h>
 
 #include <lora_driver.h>
 #include <status_leds.h>
+
+#include <OpenWindow.h>
+#include <CO2.h>
+#include <Light.h>
+
 #include <queue.h>
 #include "event_groups.h"
 
@@ -27,14 +31,14 @@ extern EventGroupHandle_t readingsEventGroup;
 //Message buffer for the downlink messages
 extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
-//Tasks' prototypes
-void lora_handler_task( void *pvParameters );
-void lora_downlink_handler_task(void *pvParameters);
-
 //Payload for the sensors' readings that is going to be sent uplink
 static lora_driver_payload_t _uplink_payload;
 //Payload that is received downlink to set the constraints for recommended CO2 levels
 static lora_driver_payload_t downlinkPayload;
+
+//Tasks' prototypes
+void lora_handler_task( void *pvParameters );
+void lora_downlink_handler_task(void *pvParameters);
 
 //Initializing both uplink and downlink tasks
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
@@ -167,7 +171,7 @@ void lora_handler_task( void *pvParameters )
 	vTaskDelay(2);
 	lora_driver_resetRn2483(0);
 	
-	// Giving it a change to wake up
+	// Giving it a chance to wake up
 	vTaskDelay(150);
 
 	// Getting rid of the first version string from module after reset!
@@ -199,11 +203,11 @@ void lora_handler_task( void *pvParameters )
 		readingsStatus = xEventGroupWaitBits(readingsEventGroup, BIT_COMPLETE, pdTRUE, pdTRUE, portMAX_DELAY);
 		
 		//Getting the readings
-			if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
-			if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
-			co2_ppm = getLatestCO2();
-			light_lux = getLatestLight();
-			
+		if(xQueueReceive(xQueue, &p, 0) == pdPASS) temp = (p*10);
+		if(xQueueReceive(xQueue, &p, 0) == pdPASS) hum = p;
+		//Read directly because of the callback mechanic
+		co2_ppm = getLatestCO2();
+		light_lux = getLatestLight();	
 		
 		puts("Sending to LoRaWAN");
 
