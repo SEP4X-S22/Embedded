@@ -1,12 +1,16 @@
- #include <TempHumidity.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 
-//Temp and humidity
-#include <hih8120.h>
+#include <TempHumidity.h>
+
 #include <stdio.h>
 #include <event_groups.h>
 #include <semphr.h>
+#include <hih8120.h>
+
+//Defining the bits of the event group
+#define BIT_TEMPERATURE (1 << 0)
+#define BIT_HUMIDITY (1 << 1)
 
 //Indicates whether the initial temperature and humidity sensor setup went successfully
 extern bool  temp;
@@ -14,10 +18,6 @@ extern bool  temp;
 extern QueueHandle_t xQueue;
 //Event group for sequential execution of the tasks
 extern EventGroupHandle_t readingsEventGroup;
-
-//Defining the bits of the event group
-#define BIT_TEMPERATURE (1 << 0)
-#define BIT_HUMIDITY (1 << 1)
 
 //Declaring and defining the variables for the readings
 float temperature = 0.0;
@@ -79,7 +79,6 @@ void task_read_temp_humidity(void *pvParameters){
 				}
 			}
 		}
-		
 		//Putting the task to sleep for the amount of time that is defined in the beginning of this task
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
