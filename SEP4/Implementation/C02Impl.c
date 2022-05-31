@@ -1,3 +1,7 @@
+/*
+Author: Max
+*/
+
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 #include <stdio.h>

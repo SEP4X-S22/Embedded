@@ -130,6 +130,8 @@ static void _lora_setup(void)
 	}
 }
 
+
+// Author: Rei
 void lora_downlink_handler_task(void *pvParameters) {
 		
 		
@@ -162,7 +164,7 @@ void lora_downlink_handler_task(void *pvParameters) {
 }
 
 
-/*-----------------------------------------------------------*/
+// Authors: Max, Yoana, Rei
 void lora_handler_task( void *pvParameters )
 {
 	// Hardware reset of LoRaWAN transceiver

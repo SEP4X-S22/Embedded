@@ -1,3 +1,7 @@
+/*
+Author: Yoana
+*/
+
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 

@@ -1,3 +1,7 @@
+/*
+Authors: Yoana, Rei
+*/
+
 #include "OpenWindow.h"
 #include "ATMEGA_FreeRTOS.h"
 #include "task.h"

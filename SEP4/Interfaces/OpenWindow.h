@@ -1,3 +1,7 @@
+/*
+Authors: Yoana, Rei
+*/
+
 #ifndef OPEN_WINDOW_H_
 #define OPEN_WINDOW_H_
 
