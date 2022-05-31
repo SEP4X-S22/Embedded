@@ -15,5 +15,7 @@ uint16_t getLatestCO2();
 void task_co2_callback(uint16_t ppm);
 //Handling the creation of a task that manages CO2 readings
 void create_task_c02(void);
+//Defines the task's logic of CO2 reading
+void task_read_c02(void *pvParameters);
 
 #endif /* CO2_H_ */
