@@ -1,3 +1,7 @@
+/*
+Author: Yoana
+*/
+
 #ifndef TEMP_HUMIDITY_H_
 #define TEMP_HUMIDITY_H_
 

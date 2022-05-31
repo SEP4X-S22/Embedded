@@ -1,3 +1,7 @@
+/*
+Author: Max
+*/
+
 #ifndef CO2_H_
 #define CO2_H_
 

@@ -1,6 +1,6 @@
 /*
-* Author: IHA
-* The backbone functionality of the project is taken from Ib Havn's repository https://github.com/ihavn/IoT_Semester_project
+* Author: IHA (The backbone functionality of the project is taken from Ib Havn's repository https://github.com/ihavn/IoT_Semester_project)
+* Contributors: Max, Yoana, Rei (refactoring the code and adding event groups, message buffer and the queue)
 */
 
 // Needed for LoRaWAN
