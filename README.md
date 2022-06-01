@@ -31,7 +31,7 @@ The semester project group consisted of 12 people, listed below by subgroups:
 #### Data
 - [Aldís Eir Hansen](https://github.com/AlleyCatRacer) - AlleyCatRacer  
 - [Alexandru Malai](https://github.com/StapanulLumii) - StapanulLimii  
-- [Claudiu Emmanuel Cordunianu](https://github.com/143473) - 143473  
+- [Claudiu Emanuel Cordunianu](https://github.com/143473) - 143473  
 - [Joseph Carroll](https://github.com/carrolljody) - carrolljody  
 
 #### IoT
