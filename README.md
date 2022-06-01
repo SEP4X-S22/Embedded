@@ -7,6 +7,18 @@ The project idea is a climate monitoring system for pharmaceutical storage from 
 
 ## Development
 [methodology, processes, languages, technologies, IDEs]
+Methodology: SCRUM and UP  
+
+Languages: C/C++  
+
+Technologies:  
+- FreeRTOS  
+- GoogleTest 
+- [Hardware](https://github.com/ihavn/IoT_Semester_project/blob/master/HARDWARE-DOC.md) 
+
+IDEs:  
+- Microchip Studio  
+- Visual Studio 2019
 
 ## Development Team
 The semester project group consisted of 12 people, listed below by subgroups:
@@ -31,4 +43,10 @@ The semester project group consisted of 12 people, listed below by subgroups:
 
 
 ### Author Reference
-[references]
+[Ib Havn](https://github.com/ihavn)
+- [IoT project structure with drivers](https://github.com/ihavn/IoT_Semester_project)  
+- [FreeRTOS src](https://github.com/ihavn/MSVC-FreeRTOS-Template-202012.00)  
+- [GoogleTest FreeRTOS mocking](https://github.com/ihavn/GoogleTestDemo/tree/master/VIAFreeRTOSTest)  
+Other
+- [fff mocking library](https://github.com/meekrosoft/fff)  
+- [GoogleTest](https://github.com/google/googletest)  
