@@ -5,8 +5,7 @@ The project idea is a climate monitoring system for pharmaceutical storage from 
 ## a*PHAR*ma<sup>TM</sup>
 [overview of project]
 
-## Development
-[methodology, processes, languages, technologies, IDEs]
+## Development  
 Methodology: SCRUM and UP  
 
 Languages: C/C++  
