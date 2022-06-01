@@ -5,6 +5,9 @@ The project idea is a climate monitoring system for pharmaceutical storage from 
 ## a*PHAR*ma<sup>TM</sup>
 [overview of project]
 
+## Video demonstration:
+https://www.youtube.com/watch?v=IkOqduIiaHc
+
 ## Development  
 Methodology: SCRUM and UP  
 
